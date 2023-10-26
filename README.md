@@ -9,6 +9,10 @@ A project created for the purpose of understanding and diving deeper into the be
 ## 📝 **Description:**
 Fitness application designed to cater to individual fitness goals and community engagement. The application allows users to create personalized workout plans or opt for pre-designed plans curated by administrators. Progress tracking is a core feature, enabling users to monitor their achievements over time through intuitive graphs and statistics.
 
+## 📈 **Diagram:**
+
+![diagram](./image.png)
+
 ## 🚀 **Development Phases:**
 
 ### 🌟 **PHASE 1 (CORE FEATURES):**
