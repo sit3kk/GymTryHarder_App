@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from api.endpoints import user, token
+from app.api.endpoints import user, token
 
 app = FastAPI()
 
