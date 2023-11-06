@@ -1,38 +1,42 @@
-import React from "react"
-import {SafeAreaView, StyleSheet, Text, View} from "react-native";
-import { TextInput, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import React from "react";
+import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { HomeScreenNavigationProp } from "../navigation/AppNavigation";
 
-function Login(){
+const Registration = () =>{
     const navigation = useNavigation<HomeScreenNavigationProp>();
-    
+
     return(
         <SafeAreaView style={styles.containter}>
-            <Text style={styles.title}> Login Screen</Text>
+            <Text style={styles.title}> Registration Screen</Text>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter email address" autoCapitalize="none" />
+                <TextInput style={styles.TextInput} placeholder="Enter Full Name" autoCapitalize="none" />
+            </View>
+
+            <View style={styles.inputView}>
+                <TextInput style={styles.TextInput} placeholder="Enter email adress" autoCapitalize="none" />
             </View>
 
             <View style={styles.inputView}>
                 <TextInput style={styles.TextInput} placeholder="Enter password" autoCapitalize="none" secureTextEntry={true} />
             </View>
 
-            <TouchableOpacity>
-                <Text style={styles.forgot_button}>Forgot Password?</Text> 
-            </TouchableOpacity> 
+            <View style={styles.inputView}>
+                <TextInput style={styles.TextInput} placeholder="Repeat password" autoCapitalize="none" secureTextEntry={true} />
+            </View>
+
             <TouchableOpacity style={styles.loginBtn}>
-                <Text style={styles.LoginText}>LOGIN</Text> 
+                <Text style={styles.LoginText}>REGISTER</Text> 
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate('Registration')}>
-                <Text style={styles.forgot_button}>Don't have an account? Register</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Text style={styles.forgot_button}>Already have an account? Login</Text>
             </TouchableOpacity>
         </SafeAreaView>
     )
 }
-export default Login;
+export default Registration;
 
 const styles = StyleSheet.create({
     containter:{
@@ -45,7 +49,12 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize:50,
         color: "black",
-        marginBottom: 150,
+        marginBottom: 60,
+        textAlign: "center"
+    },
+    forgot_button: {
+        height: 30,
+        marginBottom: 30,
     },
     inputView: {
         backgroundColor: "black",
@@ -62,24 +71,19 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         color: "white"
     },
-
-    forgot_button: {
-        height: 30,
-        marginBottom: 30,
-    },
-    LoginText: {
-        height: 50,
-        flex: 1,
-        padding: 12,
-        color: "white"
-    },
-
     loginBtn: {
         backgroundColor: "black",
         borderRadius: 30,
         width: "50%",
         height: 45,
         marginBottom: 20,
+        marginTop: 30,
         alignItems: "center",
       },
+      LoginText: {
+        height: 50,
+        flex: 1,
+        padding: 12,
+        color: "white"
+    },
 })

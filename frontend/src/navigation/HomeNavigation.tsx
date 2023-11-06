@@ -1,15 +1,15 @@
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Settings from './Settings';
-import Exercises from './Exercises';
-import Home from './Home';
-import Stats from './Stats';
-import Workout from './Workout';
+import Settings from '../components/Settings';
+import Exercises from '../components/Exercises';
+import Home from '../components/Home';
+import Stats from '../components/Stats';
+import Workout from '../components/Workout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const Tab = createBottomTabNavigator();
 
-function Tabs (){
+function HomeNavigation(){
     return(
         <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -40,4 +40,4 @@ function Tabs (){
         </Tab.Navigator>
     )
 }
-export default Tabs;
+export default HomeNavigation;
