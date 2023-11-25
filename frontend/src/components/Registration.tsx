@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { HomeScreenNavigationProp } from "../navigation/AppNavigation";
+import { LoginNavigationProp } from "../navigation/AppNavigation";
 
 const Registration = () =>{
-    const navigation = useNavigation<HomeScreenNavigationProp>();
+    const navigation = useNavigation<LoginNavigationProp>();
 
     return(
         <SafeAreaView style={styles.containter}>

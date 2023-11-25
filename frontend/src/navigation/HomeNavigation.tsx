@@ -4,12 +4,24 @@ import Settings from '../components/Settings';
 import Exercises from '../components/Exercises';
 import Home from '../components/Home';
 import Stats from '../components/Stats';
-import Workout from '../components/Workout';
+import StartWorkout from '../components/StartWorkout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import BlankWorkout from '../components/Workout';
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+
+type WorkoutStackParamList = {
+  'Home': undefined
+  'New Workout': undefined
+}
+
+export type WorkoutNavigationProp = NativeStackNavigationProp<
+  WorkoutStackParamList
+>;
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator<WorkoutStackParamList>()
 
-function HomeNavigation(){
+function HomeTabs(){
     return(
         <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -34,10 +46,19 @@ function HomeNavigation(){
         >
             <Tab.Screen name="Home" component={Home} />
             <Tab.Screen name="Stats" component={Stats} />
-            <Tab.Screen name="Workout" component={Workout} />
+            <Tab.Screen name="Workout" component={StartWorkout} />
             <Tab.Screen name="Exercises" component={Exercises} />
             <Tab.Screen name="Settings" component={Settings} />
         </Tab.Navigator>
+    )
+}
+
+function HomeNavigation(){
+    return(
+      <Stack.Navigator>
+        <Stack.Screen name="Home" component={HomeTabs} options={{headerShown: false}}/>
+        <Stack.Screen name="New Workout" component={BlankWorkout} />
+      </Stack.Navigator>
     )
 }
 export default HomeNavigation;

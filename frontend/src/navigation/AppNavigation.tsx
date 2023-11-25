@@ -4,26 +4,26 @@ import Login from "../components/Login";
 import Registration from "../components/Registration";
 import HomeNavigation from "./HomeNavigation";
 
-type RootStackParamList = {
+type LoginStackParamList = {
   Registration: undefined
   Login: undefined
 }
 
-export type HomeScreenNavigationProp = NativeStackNavigationProp<
-  RootStackParamList
+export type LoginNavigationProp = NativeStackNavigationProp<
+  LoginStackParamList
 >;
 
-const Stack = createNativeStackNavigator<RootStackParamList>();
+const LoginStack = createNativeStackNavigator<LoginStackParamList>();
 
 const LoginNavigation = () => (
-    <Stack.Navigator>
-      <Stack.Screen name="Login" options={{headerShown: false}} component={Login} />
-      <Stack.Screen name="Registration"options={{headerShown: false}} component={Registration} />
-    </Stack.Navigator>
+    <LoginStack.Navigator>
+      <LoginStack.Screen name="Login" options={{headerShown: false}} component={Login} />
+      <LoginStack.Screen name="Registration"options={{headerShown: false}} component={Registration} />
+    </LoginStack.Navigator>
 );
 
 export default function AppNavigation(){
-  const userIsLoggedIn = false;
+  const userIsLoggedIn = true;
   return (
     <NavigationContainer>
       {userIsLoggedIn ? <HomeNavigation /> : <LoginNavigation />}
