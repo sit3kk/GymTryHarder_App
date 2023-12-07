@@ -17,6 +17,7 @@ const Home = () => {
           surname: 'Nowak Zalno',
           date: '2023-12-01',
           imageUri: require('../assets/zalno.jpeg'),
+          exercises: ['bench press', 'one hand seated row', 'squat', 'leg extension', 'incline dumbell press', 'cable fly', ]
         },
         { 
           id: 2,
@@ -25,6 +26,7 @@ const Home = () => {
           surname: 'Nowak Zalno',
           date: '2023-12-02',
           imageUri: require('../assets/zalno.jpeg'),
+          exercises: ['bench press', 'one hand seated row', 'squat']
         },
         { 
           id: 3,
@@ -33,6 +35,7 @@ const Home = () => {
           surname: 'Nowak Zalno',
           date: '2023-12-03',
           imageUri: require('../assets/zalno.jpeg'),
+          exercises: ['bench press', 'one hand seated row', 'squat']
         },
       ];
 
@@ -44,6 +47,7 @@ const Home = () => {
             surname: 'cbum',
             date: '2023-12-01',
             imageUri: require('../assets/cbum.jpeg'),
+            exercises: ['bench press', 'one hand seated row', 'squat']
           },
           { 
             id: 5,
@@ -52,6 +56,7 @@ const Home = () => {
             surname: 'cbum',
             date: '2023-12-02',
             imageUri: require('../assets/cbum.jpeg'),
+            exercises: ['bench press', 'one hand seated row', 'squat']
           },
           { 
             id: 6,
@@ -60,6 +65,7 @@ const Home = () => {
             surname: 'cbum',
             date: '2023-12-03',
             imageUri: require('../assets/cbum.jpeg'),
+            exercises: ['bench press', 'one hand seated row', 'squat']
           },
     ]
 

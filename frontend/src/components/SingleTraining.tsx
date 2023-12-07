@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Image, View, Text, StyleSheet } from "react-native";
+import { Image, View, Text, StyleSheet} from "react-native";
 
 type TrainingProps = {
     training: {
@@ -10,19 +10,25 @@ type TrainingProps = {
         surname: string,
         date: string,
         imageUri: any
+        exercises: string []
     }
 }
 
 const SingleTraining: React.FC<TrainingProps> = ({ training }) => {
-    const { id, title, name, surname, date, imageUri } = training;
+    const { title, name, surname, date, imageUri, exercises } = training;
 
     return (
         <View style={styles.container}>
             <Image source={imageUri} style={styles.image} />
             <View style={styles.textContainer}>
+                <View style={styles.headerContainer}>
+                    <Text style={styles.name}>{`${name} ${surname}`}</Text>
+                    <Text style={styles.date}>{date}</Text>
+                </View>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.name}>{`${name} ${surname}`}</Text>
-                <Text style={styles.date}>{date}</Text>
+                <Text style={styles.exercise} numberOfLines={2} ellipsizeMode="tail">
+                    {exercises.join(", ")}
+                </Text>
             </View>
         </View>
       );
@@ -30,40 +36,47 @@ const SingleTraining: React.FC<TrainingProps> = ({ training }) => {
 export default SingleTraining;
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
-        padding: 10,
-      },
-      image: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        marginRight: 10,
-      },
-      textContainer: {
-        flex: 1,
-      },
-      name: {
-        fontSize: 18,
-        fontWeight: 'bold',
-      },
-      date: {
-        fontSize: 14,
-        color: '#555',
-      },
-      exercisesContainer: {
-        flex: 1,
-      },
-      exercise: {
-        fontSize: 16,
-        marginBottom: 5,
-      },
-      title: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 5,
-      },
-})
+  container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between', 
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+      paddingVertical: 5, 
+  },
+  image: {
+      width: 70,
+      height: 70,
+      borderRadius: 0,
+      marginRight: 10,
+  },
+  textContainer: {
+      flex: 1,
+      justifyContent: 'space-between'
+  },
+  headerContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between', 
+      marginTop: 0,
+  },
+  name: {
+      fontSize: 14,
+      fontWeight: 'bold',
+  },
+  date: {
+      fontSize: 14,
+      color: '#555',
+  },
+  exercisesContainer: {
+      flex: 1,
+  },
+  exercise: {
+      fontSize: 12,
+      marginBottom: 5,
+  },
+  title: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 1,
+  },
+});
