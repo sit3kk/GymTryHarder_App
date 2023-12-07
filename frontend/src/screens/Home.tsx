@@ -1,5 +1,6 @@
 import React, { useState } from "react"
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StyleSheet } from "react-native"
+import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StyleSheet, Image } from "react-native"
+import SingleTraining from "../components/SingleTraining";
 
 const Home = () => {
     const [activeButton, setActiveButton] = useState("You");
@@ -9,15 +10,57 @@ const Home = () => {
     }   
 
     const TrainingSet1 = [
-        { id: 1, title: 'moj trening 1' },
-        { id: 2, title: 'moj trening 2' },
-        { id: 3, title: 'moj trening 3' },
-    ]
+        { 
+          id: 1,
+          title: 'plecy + barki',
+          name: 'Adrian',
+          surname: 'Nowak Zalno',
+          date: '2023-12-01',
+          imageUri: require('../assets/zalno.jpeg'),
+        },
+        { 
+          id: 2,
+          title: 'klata bic ogien',
+          name: 'Adrian',
+          surname: 'Nowak Zalno',
+          date: '2023-12-02',
+          imageUri: require('../assets/zalno.jpeg'),
+        },
+        { 
+          id: 3,
+          title: 'zestaw dyskotekowy',
+          name: 'Adrian',
+          surname: 'Nowak Zalno',
+          date: '2023-12-03',
+          imageUri: require('../assets/zalno.jpeg'),
+        },
+      ];
 
     const TrainingSet2 = [
-        { id: 1, title: 'trening durnia 1' },
-        { id: 2, title: 'trening durnia 2' },
-        { id: 3, title: 'trening durnia 3' },
+        { 
+            id: 4,
+            title: 'plecy + barki',
+            name: 'cbum',
+            surname: 'cbum',
+            date: '2023-12-01',
+            imageUri: require('../assets/cbum.jpeg'),
+          },
+          { 
+            id: 5,
+            title: 'klata bic ogien',
+            name: 'cbum',
+            surname: 'cbum',
+            date: '2023-12-02',
+            imageUri: require('../assets/cbum.jpeg'),
+          },
+          { 
+            id: 6,
+            title: 'zestaw dyskotekowy',
+            name: 'cbum',
+            surname: 'cbum',
+            date: '2023-12-03',
+            imageUri: require('../assets/cbum.jpeg'),
+          },
     ]
 
 
@@ -45,9 +88,7 @@ const Home = () => {
 
             <ScrollView style={{ flex: 1, marginTop: 5 }}>
                 {renderTrainings().map((training) => (
-                    <View key={training.id} style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: 'gray' }}>
-                    <Text>{training.title}</Text>
-                    </View>
+                    <SingleTraining key={training.id} training={training} />
         ))}
             </ScrollView>
         </SafeAreaView>
@@ -76,5 +117,5 @@ const styles = StyleSheet.create({
     },
     activeText:{
         color: 'white'
-    }
+    },
 })

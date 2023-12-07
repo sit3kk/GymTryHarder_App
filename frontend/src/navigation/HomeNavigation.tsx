@@ -1,12 +1,12 @@
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Settings from '../components/Settings';
-import Exercises from '../components/Exercises';
-import Home from '../components/Home';
-import Stats from '../components/Stats';
-import StartWorkout from '../components/StartWorkout';
+import Settings from '../screens/Settings';
+import Exercises from '../screens/Exercises';
+import Home from '../screens/Home';
+import Stats from '../screens/Stats';
+import StartWorkout from '../screens/StartWorkout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import BlankWorkout from '../components/Workout';
+import BlankWorkout from '../screens/Workout';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 type WorkoutStackParamList = {

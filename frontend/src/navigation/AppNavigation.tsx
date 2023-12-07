@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Login from "../components/Login";
-import Registration from "../components/Registration";
+import Login from "../screens/Login";
+import Registration from "../screens/Registration";
 import HomeNavigation from "./HomeNavigation";
 
 type LoginStackParamList = {
