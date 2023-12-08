@@ -94,4 +94,46 @@ const TrainingSet2 = [
       },
 ]
 
-export { TrainingSet1, TrainingSet2 };
+const ExercisesSet1 = [
+  {
+    
+        id: 1,
+        title: "Push-ups",
+        imageUri: require('../assets/bench_press.png'),
+        description: "A classic bodyweight exercise that targets the chest, shoulders, and triceps.",
+        muscles: ["Chest", "Shoulders", "Triceps"]
+},
+{
+    
+        id: 2,
+        title: "Squats",
+        imageUri: require('../assets/bench_press.png'),
+        description: "A fundamental lower body exercise that targets the quadriceps, hamstrings, and glutes.",
+        muscles: ["Chest", "Shoulders", "Triceps"]
+    
+},
+{
+        id: 3,
+        title: "Plank",
+        imageUri: require('../assets/bench_press.png'),
+        description: "An isometric core exercise that strengthens the abdominal muscles and improves posture.",
+        muscles: ["Chest", "Shoulders", "Triceps"]
+},
+{
+        id: 4,
+        title: "Jumping Jacks",
+        imageUri: require('../assets/bench_press.png'),
+        description: "A cardiovascular exercise that engages the whole body and improves endurance.",
+        muscles: ["Chest", "Shoulders", "Triceps"]
+  
+},
+{
+        id: 5,
+        title: "Bicycle Crunches",
+        imageUri: require('../assets/bench_press.png'),
+        description: "An effective abdominal exercise that targets the rectus abdominis and obliques.",
+        muscles: ["Chest", "Shoulders", "Triceps"]
+}
+]
+
+export { TrainingSet1, TrainingSet2, ExercisesSet1 };
