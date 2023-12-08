@@ -20,9 +20,9 @@ const Home = () => {
     }
 
     return(
-        <SafeAreaView style={{flex: 1, padding: 20, margin: 17}}>
+        <SafeAreaView style={{flex: 1, padding: 20, margin: 11}}>
 
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 2 }}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 2, marginBottom: 3 }}>
                 <TouchableOpacity onPress={() => handleButtonPress("You")} style={[styles.button, activeButton === "You" && styles.activeButton]}>
                     <Text style={activeButton === "You" && styles.activeText}>You</Text>
                 </TouchableOpacity>
