@@ -22,10 +22,17 @@ app = FastAPI()
 app.include_router(router)
 
 
+
+
 load_dotenv()
 
+#@app.on_event("startup")
+#async def startup():
+    #await test_connection()
 
-
+#@app.on_event("shutdown")
+#async def shutdown():
+   # await engine.dispose()
 
 
 
