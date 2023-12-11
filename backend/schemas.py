@@ -7,7 +7,7 @@ class Token(BaseModel):
     token_type: str
 
 class TokenData(BaseModel):
-    username: str | None = None
+    username: Optional[str] = None
     scopes: list[str] = []
 
 class UserCreate(BaseModel):

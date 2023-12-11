@@ -23,7 +23,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
-ALGORITHM = os.getenv("ALGORITHM")
+ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 
 
 def verify_password(plain_password, hashed_password):
