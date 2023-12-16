@@ -1,81 +1,101 @@
-import React, { useState } from "react"
-import { SafeAreaView , ScrollView, Text, View, TouchableOpacity, StyleSheet} from "react-native"
+import React, { useState } from "react";
+import { SafeAreaView, ScrollView, Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { ExercisesSet1 } from "../assets/data";
 import SingleExercise from "../components/SingleExercise";
 
 const muscleGroups = ["All", "Chest", "Legs", "Abs", "Glutes", "Back", "Shoulders", "Triceps", "Biceps", "Forearms"];
 
-const Exercises = () =>{
-    const [activeButton, setActiveButton] = useState("All");
-    const [filteredExercises, setFilteredExercises] = useState(ExercisesSet1);
+const Exercises = () => {
+  const [activeButton, setActiveButton] = useState("All");
+  const [filteredExercises, setFilteredExercises] = useState(ExercisesSet1);
 
-    const handleButtonPress = (button: string) =>{
-        setActiveButton(button);
+  const handleButtonPress = (button: string) => {
+    setActiveButton(button);
 
-        if (button === "All") {
-            setFilteredExercises(ExercisesSet1);
-          } else {
-            const filtered = ExercisesSet1.filter((exercise) => exercise.muscles.includes(button));
-            setFilteredExercises(filtered);
-          }
-    } 
+    if (button === "All") {
+      setFilteredExercises(ExercisesSet1);
+    } else {
+      const filtered = ExercisesSet1.filter((exercise) => exercise.muscles.includes(button));
+      setFilteredExercises(filtered);
+    }
+  };
 
-    return(
-        <SafeAreaView style={{flex: 1, padding: 20, marginHorizontal: 10 }}>
-            <View style={{ marginTop: 10, marginBottom: 0 }}>
-            <ScrollView 
-                horizontal 
-                showsHorizontalScrollIndicator={true}
-                contentContainerStyle={styles.scrollViewContent}>
-                <View style={{ flexDirection: "row" }}>
-                    {muscleGroups.map((group) => (
-                    <TouchableOpacity
-                        key={group}
-                        onPress={() => handleButtonPress(group)}
-                        style={[styles.button, activeButton === group && styles.activeButton]}
-                    >
-                        <Text style={activeButton === group ? styles.activeText : styles.text}>{group}</Text>
-                    </TouchableOpacity>
-                    ))}
-                </View>
-            </ScrollView>
-            </View>
-
-
-            <ScrollView style={{ flex: 1, marginTop: 0 }}>
-                {filteredExercises.map((exercise) => (
-                    <SingleExercise exercise={exercise} />
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.buttonContainer}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={true}
+          contentContainerStyle={styles.scrollViewContent}
+        >
+          <View style={styles.buttonsRow}>
+            {muscleGroups.map((group) => (
+              <TouchableOpacity
+                key={group}
+                onPress={() => handleButtonPress(group)}
+                style={activeButton === group ? styles.activeButton : styles.button}
+              >
+                <Text style={activeButton === group ? styles.activeText : styles.text}>{group}</Text>
+              </TouchableOpacity>
             ))}
-            </ScrollView>
-        </SafeAreaView>
-    )
-}
-export default Exercises;
+          </View>
+        </ScrollView>
+      </View>
+
+      <ScrollView style={styles.scrollView}>
+        {filteredExercises.map((exercise) => (
+          <SingleExercise exercise={exercise} key={exercise.id} />
+        ))}
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 
 const styles = StyleSheet.create({
-    button: {
-        alignItems: "center",
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 30,
-        marginHorizontal: 10,
-        borderWidth: 1,
-        borderColor: "black",
-      },
-    activeButton: {
-        backgroundColor: 'black',
-    },
-    activeButtonText: {
-        color: 'white',
-    },
-    text:{
-        color: 'black'
-    },
-    activeText:{
-        color: 'white'
-    },
-    scrollViewContent: {
-        paddingRight: 20,
-        marginBottom: 12,
-    },
-})
+  container: {
+    flex: 1,
+    padding: 20,
+    marginHorizontal: 10,
+    marginTop: 9,
+  },
+  buttonContainer: {
+    marginBottom: 1
+  },
+  scrollViewContent: {
+    paddingRight: 20,
+    marginBottom: 10
+  },
+  buttonsRow: {
+    flexDirection: "row",
+    marginHorizontal: -10,
+  },
+  button: {
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    marginHorizontal: 10,
+    borderWidth: 1,
+    borderColor: "black",
+  },
+  activeButton: {
+    backgroundColor: 'black',
+    alignItems: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    marginHorizontal: 10,
+  },
+  text: {
+    color: 'black',
+  },
+  activeText: {
+    color: 'white',
+  },
+  scrollView: {
+    flex: 1,
+    marginTop: 0,
+  },
+});
+
+export default Exercises;
