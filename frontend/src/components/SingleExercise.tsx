@@ -13,7 +13,7 @@ type ExerciseProps = {
 }
 
 const SingleExercise: React.FC<ExerciseProps> = ({ exercise }) =>{
-    const {id, title, imageUri, description, muscles } = exercise
+    const { title, imageUri, description, muscles } = exercise
 
     return(
         <View style={styles.container}>
@@ -23,7 +23,7 @@ const SingleExercise: React.FC<ExerciseProps> = ({ exercise }) =>{
                 <Text style={styles.exercise} numberOfLines={2} ellipsizeMode="tail">
                     {muscles.join(", ")}
                 </Text>
-                <Text style={styles.exercise}>{description}</Text>
+                <Text style={styles.description}>{description}</Text>
             </View>
         </View>
     )
@@ -55,6 +55,10 @@ const styles = StyleSheet.create({
         marginBottom: 1,
     },
     exercise: {
+        fontSize: 14,
+        marginBottom: 2,
+    },
+    description: {
         fontSize: 12,
         marginBottom: 2,
     },
