@@ -7,9 +7,17 @@ const muscleGroups = ["All", "Chest", "Legs", "Abs", "Glutes", "Back", "Shoulder
 
 const Exercises = () =>{
     const [activeButton, setActiveButton] = useState("All");
+    const [filteredExercises, setFilteredExercises] = useState(ExercisesSet1);
 
     const handleButtonPress = (button: string) =>{
         setActiveButton(button);
+
+        if (button === "All") {
+            setFilteredExercises(ExercisesSet1);
+          } else {
+            const filtered = ExercisesSet1.filter((exercise) => exercise.muscles.includes(button));
+            setFilteredExercises(filtered);
+          }
     } 
 
     return(
@@ -35,7 +43,7 @@ const Exercises = () =>{
 
 
             <ScrollView style={{ flex: 1, marginTop: 0 }}>
-                {ExercisesSet1.map((exercise) => (
+                {filteredExercises.map((exercise) => (
                     <SingleExercise exercise={exercise} />
             ))}
             </ScrollView>
@@ -67,7 +75,7 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     scrollViewContent: {
-        paddingRight: 20, // Dodaj padding na prawo, aby zawsze mieć przestrzeń dla paska przewijania
+        paddingRight: 20,
         marginBottom: 12,
     },
 })
