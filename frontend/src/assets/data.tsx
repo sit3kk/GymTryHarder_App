@@ -96,44 +96,68 @@ const TrainingSet2 = [
 
 const ExercisesSet1 = [
   {
-    
-        id: 1,
-        title: "Push-ups",
-        imageUri: require('../assets/bench_press.png'),
-        description: "A classic bodyweight exercise that targets the chest, shoulders, and triceps.",
-        muscles: ["Chest", "Shoulders", "Triceps"]
-},
-{
-    
-        id: 2,
-        title: "Squats",
-        imageUri: require('../assets/bench_press.png'),
-        description: "A fundamental lower body exercise that targets the quadriceps, hamstrings, and glutes.",
-        muscles: ["Chest", "Shoulders", "Triceps"]
-    
-},
-{
-        id: 3,
-        title: "Plank",
-        imageUri: require('../assets/bench_press.png'),
-        description: "An isometric core exercise that strengthens the abdominal muscles and improves posture.",
-        muscles: ["Chest", "Shoulders", "Triceps"]
-},
-{
-        id: 4,
-        title: "Jumping Jacks",
-        imageUri: require('../assets/bench_press.png'),
-        description: "A cardiovascular exercise that engages the whole body and improves endurance.",
-        muscles: ["Chest", "Shoulders", "Triceps"]
-  
-},
-{
-        id: 5,
-        title: "Bicycle Crunches",
-        imageUri: require('../assets/bench_press.png'),
-        description: "An effective abdominal exercise that targets the rectus abdominis and obliques.",
-        muscles: ["Chest", "Shoulders", "Triceps"]
-}
+    id: 1,
+    title: "Push-ups",
+    imageUri: require('../assets/bench_press.png'),
+    description: "A classic bodyweight exercise that targets the chest, shoulders, and triceps.",
+    muscles: ["Chest", "Shoulders", "Triceps"]
+  },
+  {
+    id: 2,
+    title: "Squats",
+    imageUri: require('../assets/bench_press.png'),
+    description: "A fundamental lower body exercise that targets the quadriceps, hamstrings, and glutes.",
+    muscles: ["Legs", "Glutes"]
+  },
+  {
+    id: 3,
+    title: "Plank",
+    imageUri: require('../assets/bench_press.png'),
+    description: "An isometric core exercise that strengthens the abdominal muscles and improves posture.",
+    muscles: ["Abs"]
+  },
+  {
+    id: 4,
+    title: "Jumping Jacks",
+    imageUri: require('../assets/bench_press.png'),
+    description: "A cardiovascular exercise that engages the whole body and improves endurance.",
+    muscles: ["Legs", "Cardio"]
+  },
+  {
+    id: 5,
+    title: "Bicycle Crunches",
+    imageUri: require('../assets/bench_press.png'),
+    description: "An effective abdominal exercise that targets the rectus abdominis and obliques.",
+    muscles: ["Abs"]
+  },
+  {
+    id: 6,
+    title: "Deadlifts",
+    imageUri: require('../assets/bench_press.png'),
+    description: "A compound exercise that targets the back, hamstrings, and glutes.",
+    muscles: ["Back", "Legs", "Glutes"]
+  },
+  {
+    id: 7,
+    title: "Shoulder Press",
+    imageUri: require('../assets/bench_press.png'),
+    description: "An overhead pressing exercise that targets the shoulders and triceps.",
+    muscles: ["Shoulders", "Triceps"]
+  },
+  {
+    id: 9,
+    title: "Russian Twists",
+    imageUri: require('../assets/bench_press.png'),
+    description: "An abdominal exercise that targets the obliques.",
+    muscles: ["Abs"]
+  },
+  {
+    id: 10,
+    title: "Pull-ups",
+    imageUri: require('../assets/bench_press.png'),
+    description: "An upper body exercise that targets the back and biceps.",
+    muscles: ["Back", "Biceps"]
+  },
 ]
 
 export { TrainingSet1, TrainingSet2, ExercisesSet1 };
