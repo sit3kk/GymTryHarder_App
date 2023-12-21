@@ -9,10 +9,12 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import BlankWorkout from '../screens/Workout';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import WorkoutFinishButton from '../components/WorkoutFinishButton';
+import ChooseExercise from '../screens/ChooseExercise';
 
-type WorkoutStackParamList = {
+export type WorkoutStackParamList = {
   'Home': undefined
   'New Workout': undefined
+  'Choose Exercise': { onSelectExercise: (exercise: string) => void };
 }
 
 export type WorkoutNavigationProp = NativeStackNavigationProp<
@@ -66,6 +68,10 @@ function HomeNavigation(){
             component={BlankWorkout}
             options={{ headerLeft: () => <WorkoutFinishButton />}}  
         />
+        <Stack.Screen 
+            name="Choose Exercise" 
+            component={ChooseExercise} 
+            options={{headerShown: true}}/>
       </Stack.Navigator>
     )
 }

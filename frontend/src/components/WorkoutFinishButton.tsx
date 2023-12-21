@@ -7,7 +7,6 @@ const WorkoutFinishButton = () => {
     const navigation = useNavigation<WorkoutNavigationProp>();
   
     const handleBackPress = () => {
-      // Wyświetlenie komunikatu "Are you sure?"
       Alert.alert(
         'Confirmation',
         'Are you sure you want to finish workout?',
@@ -16,14 +15,13 @@ const WorkoutFinishButton = () => {
           {
             text: 'Yes',
             onPress: () => {
-              // Jeśli użytkownik wybierze "Yes", wróć do poprzedniego ekranu
               navigation.goBack();
             },
           },
         ],
         { cancelable: false }
       );
-      return true; // Powstrzymuje domyślne zachowanie przycisku powrotu
+      return true; 
     };
   
     return <BackButton onPress={handleBackPress} />;
