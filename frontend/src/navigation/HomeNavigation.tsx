@@ -8,6 +8,7 @@ import StartWorkout from '../screens/StartWorkout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import BlankWorkout from '../screens/Workout';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+import WorkoutFinishButton from '../components/WorkoutFinishButton';
 
 type WorkoutStackParamList = {
   'Home': undefined
@@ -56,8 +57,15 @@ function HomeTabs(){
 function HomeNavigation(){
     return(
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={HomeTabs} options={{headerShown: false}}/>
-        <Stack.Screen name="New Workout" component={BlankWorkout} />
+        <Stack.Screen 
+            name="Home" 
+            component={HomeTabs} 
+            options={{headerShown: false}}/>
+        <Stack.Screen 
+            name="New Workout" 
+            component={BlankWorkout}
+            options={{ headerLeft: () => <WorkoutFinishButton />}}  
+        />
       </Stack.Navigator>
     )
 }
