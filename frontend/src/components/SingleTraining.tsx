@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
       marginTop: 0,
   },
   name: {
-      fontSize: 14,
+      fontSize: 16,
       fontWeight: 'bold',
   },
   date: {
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
       marginBottom: 5,
   },
   title: {
-      fontSize: 18,
+      fontSize: 13,
       fontWeight: 'bold',
       marginBottom: 1,
   },

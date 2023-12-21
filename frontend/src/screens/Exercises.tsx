@@ -67,14 +67,14 @@ const styles = StyleSheet.create({
   },
   buttonsRow: {
     flexDirection: "row",
-    marginHorizontal: -10,
+    marginHorizontal: 0,
   },
   button: {
     alignItems: "center",
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 30,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
     borderWidth: 1,
     borderColor: "black",
   },
