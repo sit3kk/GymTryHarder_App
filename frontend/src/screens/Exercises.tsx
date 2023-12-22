@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import { ExercisesSet1 } from "../assets/data";
-import SingleExercise from "../components/SingleExercise";
+import { SingleExercise } from "../components/SingleExercise";
 
 const muscleGroups = ["All", "Chest", "Legs", "Abs", "Glutes", "Back", "Shoulders", "Triceps", "Biceps", "Forearms"];
 

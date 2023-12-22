@@ -12,7 +12,7 @@ type ExerciseProps = {
     }
 }
 
-const SingleExercise: React.FC<ExerciseProps> = ({ exercise }) =>{
+export const SingleExercise: React.FC<ExerciseProps> = ({ exercise }) =>{
     const { title, imageUri, description, muscles } = exercise
 
     return(
@@ -28,7 +28,19 @@ const SingleExercise: React.FC<ExerciseProps> = ({ exercise }) =>{
         </View>
     )
 }
-export default SingleExercise;
+
+export const MiniSingleExercise: React.FC<ExerciseProps> = ({exercise}) =>{
+    const { title, imageUri } = exercise
+
+    return(
+        <View style={styles.container}>
+            <Image source={imageUri} style={styles.miniImage} />
+            <View style={styles.textContainer}>
+                <Text style={styles.title}>{title}</Text>
+            </View>
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -42,6 +54,12 @@ const styles = StyleSheet.create({
     image: {
         width: 70,
         height: 70,
+        borderRadius: 0,
+        marginRight: 10,
+    },
+    miniImage:{
+        width: 40,
+        height: 40,
         borderRadius: 0,
         marginRight: 10,
     },
