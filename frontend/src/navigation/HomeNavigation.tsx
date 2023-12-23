@@ -66,12 +66,13 @@ function HomeNavigation(){
         <Stack.Screen 
             name="New Workout" 
             component={BlankWorkout}
-            options={{ headerLeft: () => <WorkoutFinishButton />}}  
+            options={{ headerLeft: () => <WorkoutFinishButton />}} 
+             
         />
         <Stack.Screen 
             name="Choose Exercise" 
             component={ChooseExercise} 
-            options={{headerShown: true}}/>
+            options={{headerShown: true,  animation:"slide_from_bottom"}}/>
       </Stack.Navigator>
     )
 }

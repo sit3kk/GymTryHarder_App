@@ -158,6 +158,13 @@ const ExercisesSet1 = [
     description: "An upper body exercise that targets the back and biceps.",
     muscles: ["Back", "Biceps"]
   },
+  {
+    id: 11,
+    title: "Bench Press",
+    imageUri: require('../assets/bench_press.png'),
+    description: "To grow your chest",
+    muscles: ["Chest", "Triceps"]
+  },
 ]
 
 export { TrainingSet1, TrainingSet2, ExercisesSet1 };
