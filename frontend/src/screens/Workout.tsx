@@ -2,6 +2,9 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet } from "react-native";
 import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
+import { FontAwesome } from '@expo/vector-icons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+
 
 interface Exercise {
   name: string;
@@ -12,7 +15,7 @@ interface Exercise {
   }[];
 }
 
-const SeriesBar = ({ counter, weight, reps, onWeightChange, onRepsChange }: { counter: number; weight: number; reps: number; onWeightChange: (weight: number) => void; onRepsChange: (reps: number) => void }) => (
+const SeriesBar = ({ counter, weight, reps, onWeightChange, onRepsChange, onDelete }: { counter: number; weight: number; reps: number; onWeightChange: (weight: number) => void; onRepsChange: (reps: number) => void; onDelete: () => void }) => (
   <View style={styles.seriesContainer}>
     <Text style={styles.seriesText}>{`${counter}.`}</Text>
     <TextInput
@@ -29,6 +32,13 @@ const SeriesBar = ({ counter, weight, reps, onWeightChange, onRepsChange }: { co
       keyboardType="numeric"
       onChangeText={(text) => onRepsChange(Number(text))}
     />
+    <TouchableOpacity onPress={onDelete}>
+        <MaterialCommunityIcons 
+                name="delete"
+                color= "black"
+                size={24}>
+        </MaterialCommunityIcons>
+     </TouchableOpacity>
   </View>
 );
 
@@ -47,14 +57,36 @@ const BlankWorkout = () => {
 
   const handleAddSeries = (exerciseIndex: number) => {
     const updatedExercises = [...exercises];
-    const lastSeries = updatedExercises[exerciseIndex].series[updatedExercises[exerciseIndex].series.length - 1];
-
+    const existingSeries = updatedExercises[exerciseIndex].series;
+  
+    let newCounter = 1;
+    if (existingSeries.length > 0) {
+      const maxCounter = Math.max(...existingSeries.map((serie) => serie.counter));
+      newCounter = maxCounter + 1;
+    }
+  
     updatedExercises[exerciseIndex].series.push({
-      counter: lastSeries.counter + 1,
+      counter: newCounter,
       weight: 0,
       reps: 0,
     });
+  
+    setExercises(updatedExercises);
+  };
+  
 
+  const handleDeleteSeries = (exerciseIndex: number, seriesIndex: number) => {
+    const updatedExercises = [...exercises];
+    const deletedCounter = updatedExercises[exerciseIndex].series[seriesIndex].counter;
+  
+    updatedExercises[exerciseIndex].series.splice(seriesIndex, 1);
+  
+    updatedExercises[exerciseIndex].series.forEach((serie) => {
+      if (serie.counter > deletedCounter) {
+        serie.counter -= 1;
+      }
+    });
+  
     setExercises(updatedExercises);
   };
 
@@ -85,6 +117,7 @@ const BlankWorkout = () => {
                   reps={serie.reps}
                   onWeightChange={(weight) => handleWeightChange(exerciseIndex, seriesIndex, weight)}
                   onRepsChange={(reps) => handleRepsChange(exerciseIndex, seriesIndex, reps)}
+                  onDelete={() => handleDeleteSeries(exerciseIndex, seriesIndex)}
                 />
               </View>
             ))}
@@ -107,7 +140,7 @@ export default BlankWorkout;
 const styles = StyleSheet.create({
   seriesContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: 'center',
     alignItems: "center",
     marginTop: 5,
     padding: 5,
