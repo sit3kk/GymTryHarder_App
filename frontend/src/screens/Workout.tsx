@@ -2,9 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet } from "react-native";
 import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
-import { FontAwesome } from '@expo/vector-icons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-
 
 interface Exercise {
   name: string;
@@ -36,7 +34,7 @@ const SeriesBar = ({ counter, weight, reps, onWeightChange, onRepsChange, onDele
         <MaterialCommunityIcons 
                 name="delete"
                 color= "black"
-                size={24}>
+                size={17}>
         </MaterialCommunityIcons>
      </TouchableOpacity>
   </View>
@@ -74,7 +72,6 @@ const BlankWorkout = () => {
     setExercises(updatedExercises);
   };
   
-
   const handleDeleteSeries = (exerciseIndex: number, seriesIndex: number) => {
     const updatedExercises = [...exercises];
     const deletedCounter = updatedExercises[exerciseIndex].series[seriesIndex].counter;
@@ -103,10 +100,10 @@ const BlankWorkout = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, padding: 20, margin: 17 }}>
+    <SafeAreaView style={{ flex: 1, padding: 0, margin: 15 }}>
       <ScrollView style={{ flex: 1 }}>
         {exercises.map((exercise, exerciseIndex) => (
-          <View key={exerciseIndex}>
+          <View key={exerciseIndex} style={styles.exerciseContainer}>
             <Text style={styles.exerciseText}>{exercise.name}</Text>
 
             {exercise.series.map((serie, seriesIndex) => (
@@ -143,21 +140,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: "center",
     marginTop: 5,
-    padding: 5,
+    padding: 0,
     backgroundColor: "#DDDDDD",
-    borderRadius: 5,
-    height: 30,
+    borderRadius: 30,
+    height: 15,
+  },
+  exerciseContainer:{
+    backgroundColor:'#bfbfbf',
+    padding: 10, 
+    borderRadius: 30,
+    marginBottom: 20
   },
   seriesText: {
     alignSelf: 'flex-start',
-    lineHeight: 20,
   },
   seriesInput: {
     flex: 1,
     textAlign: "center",
-    height: 30,
     borderColor: "transparent",
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
   },
   seriesButton: {
     marginTop: 10,
@@ -181,6 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    textAlign: 'center'
   },
 });
 
