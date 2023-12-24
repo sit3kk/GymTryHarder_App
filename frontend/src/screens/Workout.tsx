@@ -71,6 +71,12 @@ const BlankWorkout = () => {
   
     setExercises(updatedExercises);
   };
+
+  const handleDeleteExercise = (exerciseIndex: number) => {
+    const updatedExercises = [...exercises];
+    updatedExercises.splice(exerciseIndex, 1);
+    setExercises(updatedExercises);
+  };
   
   const handleDeleteSeries = (exerciseIndex: number, seriesIndex: number) => {
     const updatedExercises = [...exercises];
@@ -104,7 +110,17 @@ const BlankWorkout = () => {
       <ScrollView style={{ flex: 1 }}>
         {exercises.map((exercise, exerciseIndex) => (
           <View key={exerciseIndex} style={styles.exerciseContainer}>
-            <Text style={styles.exerciseText}>{exercise.name}</Text>
+            <View style={styles.exerciseHeader}>
+              <Text style={styles.exerciseText}>{exercise.name}</Text>
+              <TouchableOpacity onPress={() => handleDeleteExercise(exerciseIndex)}>
+                <MaterialCommunityIcons 
+                  name="delete"
+                  color= "black"
+                  size={17}>
+                </MaterialCommunityIcons>
+              </TouchableOpacity>
+            </View>
+
 
             {exercise.series.map((serie, seriesIndex) => (
               <View key={seriesIndex} style={{ backgroundColor: "#DDDDDD", padding: 10, borderRadius: 5, marginBottom: 7 }}>
@@ -151,6 +167,13 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginBottom: 20
   },
+  exerciseHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 5,
+    marginHorizontal: 15
+  },
   seriesText: {
     alignSelf: 'flex-start',
   },
@@ -167,7 +190,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 30,
   },
-    exerciseButton: {
+  exerciseButton: {
     marginTop: 10,
     padding: 15,
     backgroundColor: "black",
