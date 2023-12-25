@@ -12,11 +12,11 @@ function Login(){
             <Text style={styles.title}> Login Screen</Text>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter email address" autoCapitalize="none" />
+                <TextInput style={styles.TextInput} placeholder="Enter email address" autoCapitalize="none" placeholderTextColor='gray'/>
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter password" autoCapitalize="none" secureTextEntry={true} />
+                <TextInput style={styles.TextInput} placeholder="Enter password" autoCapitalize="none" secureTextEntry={true} placeholderTextColor='gray'/>
             </View>
 
             <TouchableOpacity>

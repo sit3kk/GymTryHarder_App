@@ -11,19 +11,19 @@ const Registration = () =>{
             <Text style={styles.title}> Registration Screen</Text>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter Full Name" autoCapitalize="none" />
+                <TextInput style={styles.TextInput} placeholder="Enter Full Name" autoCapitalize="none" placeholderTextColor='gray'/>
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter email adress" autoCapitalize="none" />
+                <TextInput style={styles.TextInput} placeholder="Enter email adress" autoCapitalize="none" placeholderTextColor='gray'/>
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter password" autoCapitalize="none" secureTextEntry={true} />
+                <TextInput style={styles.TextInput} placeholder="Enter password" autoCapitalize="none" secureTextEntry={true} placeholderTextColor='gray'/>
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Repeat password" autoCapitalize="none" secureTextEntry={true} />
+                <TextInput style={styles.TextInput} placeholder="Repeat password" autoCapitalize="none" secureTextEntry={true} placeholderTextColor='gray'/>
             </View>
 
             <TouchableOpacity style={styles.loginBtn}>
