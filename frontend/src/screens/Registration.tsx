@@ -22,6 +22,11 @@ const Registration = () =>{
     }
 
     const register = async () => {
+        if (password !== passwordRep) {
+            Alert.alert("Passwords do not match");
+            return;
+        }
+
         const result = await onRegister!(fullName, email, password);
 
         if(result && result.error){

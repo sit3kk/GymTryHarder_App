@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator, NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useAuth } from "../context/AuthContext";
 import Login from "../screens/Login";
 import Registration from "../screens/Registration";
 import HomeNavigation from "./HomeNavigation";
@@ -23,10 +24,11 @@ const LoginNavigation = () => (
 );
 
 export default function AppNavigation(){
-  const userIsLoggedIn = true;
+  const {authState, onLogout} = useAuth();
+
   return (
     <NavigationContainer>
-      {userIsLoggedIn ? <HomeNavigation /> : <LoginNavigation />}
+      {authState?.authenticated ? <HomeNavigation /> : <LoginNavigation />}
     </NavigationContainer>
   );
 }
