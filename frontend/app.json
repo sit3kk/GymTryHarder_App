@@ -1,4 +1,11 @@
 {
-  "name": "frontend",
-  "displayName": "frontend"
+  "name": "main",
+  "displayName": "frontend",
+  "expo": {
+    "ios": {
+      "config": {
+        "usesNonExemptEncryption": false
+      }
+    }
+  }
 }
