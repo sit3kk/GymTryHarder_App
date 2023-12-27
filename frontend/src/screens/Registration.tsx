@@ -1,32 +1,88 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useState } from "react";
+import { Alert } from "react-native";
 import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useAuth } from "../context/AuthContext";
 import { LoginNavigationProp } from "../navigation/AppNavigation";
 
 const Registration = () =>{
     const navigation = useNavigation<LoginNavigationProp>();
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordRep, setPasswordRep] = useState('');
+    const {onLogin, onRegister} = useAuth();
+
+    const login = async () => {
+        const result = await onLogin!(email, password);
+
+        if(result && result.error){
+            Alert.alert(result.msg);
+        }
+    }
+
+    const register = async () => {
+        const result = await onRegister!(fullName, email, password);
+
+        if(result && result.error){
+            Alert.alert(result.msg);
+        }
+        else{
+            login();
+        }
+    }
 
     return(
         <SafeAreaView style={styles.containter}>
             <Text style={styles.title}> Registration Screen</Text>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter Full Name" autoCapitalize="none" placeholderTextColor='gray'/>
+                <TextInput 
+                    style={styles.TextInput} 
+                    placeholder="Enter Full Name" 
+                    autoCapitalize="none" 
+                    onChangeText={(text: string) => setFullName(text)} 
+                    value={fullName} 
+                    placeholderTextColor='gray'
+                    />
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter email adress" autoCapitalize="none" placeholderTextColor='gray'/>
+                <TextInput 
+                    style={styles.TextInput} 
+                    placeholder="Enter email adress" 
+                    autoCapitalize="none" 
+                    placeholderTextColor='gray'
+                    onChangeText={(text: string) => setEmail(text)} 
+                    value={email} 
+                    />
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter password" autoCapitalize="none" secureTextEntry={true} placeholderTextColor='gray'/>
+                <TextInput 
+                    style={styles.TextInput} 
+                    placeholder="Enter password" 
+                    autoCapitalize="none" 
+                    secureTextEntry={true} 
+                    placeholderTextColor='gray'
+                    onChangeText={(text: string) => setPassword(text)} 
+                    value={password} 
+                    />
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Repeat password" autoCapitalize="none" secureTextEntry={true} placeholderTextColor='gray'/>
+                <TextInput 
+                    style={styles.TextInput} 
+                    placeholder="Repeat password" 
+                    autoCapitalize="none" 
+                    secureTextEntry={true} 
+                    placeholderTextColor='gray'
+                    onChangeText={(text: string) => setPasswordRep(text)} 
+                    value={passwordRep} 
+                    />
             </View>
 
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity style={styles.loginBtn} onPress={register}>
                 <Text style={styles.LoginText}>REGISTER</Text> 
             </TouchableOpacity>
 

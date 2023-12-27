@@ -1,28 +1,53 @@
-import React from "react"
-import {SafeAreaView, StyleSheet, Text, View} from "react-native";
+import React, { useState } from "react"
+import {Alert, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import { TextInput, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { LoginNavigationProp } from "../navigation/AppNavigation";
+import { useAuth } from "../context/AuthContext";
 
 function Login(){
     const navigation = useNavigation<LoginNavigationProp>();
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const {onLogin} = useAuth();
+
+    const login = async () => {
+        const result = await onLogin!(email, password);
+        if(result && result.error){
+            Alert.alert(result.msg);
+        }
+    }
     
     return(
         <SafeAreaView style={styles.containter}>
             <Text style={styles.title}> Login Screen</Text>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter email address" autoCapitalize="none" placeholderTextColor='gray'/>
+                <TextInput 
+                    style={styles.TextInput} 
+                    placeholder="Enter email address" 
+                    onChangeText={(text: string) => setEmail(text)} 
+                    value={email} 
+                    autoCapitalize="none"
+                    placeholderTextColor='gray'/>
             </View>
 
             <View style={styles.inputView}>
-                <TextInput style={styles.TextInput} placeholder="Enter password" autoCapitalize="none" secureTextEntry={true} placeholderTextColor='gray'/>
+                <TextInput 
+                    style={styles.TextInput} 
+                    placeholder="Enter password" 
+                    autoCapitalize="none" 
+                    onChangeText={(text: string) => setPassword(text)}
+                    value={password}
+                    secureTextEntry={true} 
+                    placeholderTextColor='gray'/>
             </View>
 
             <TouchableOpacity>
                 <Text style={styles.forgot_button}>Forgot Password?</Text> 
             </TouchableOpacity> 
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity style={styles.loginBtn} onPress={login}>
                 <Text style={styles.LoginText}>LOGIN</Text> 
             </TouchableOpacity>
 
