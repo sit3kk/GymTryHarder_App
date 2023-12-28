@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet } from "react-native";
 import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 
 interface Exercise {
   name: string;
@@ -31,11 +31,7 @@ const SeriesBar = ({ counter, weight, reps, onWeightChange, onRepsChange, onDele
       onChangeText={(text) => onRepsChange(Number(text))}
     />
     <TouchableOpacity onPress={onDelete}>
-        <MaterialCommunityIcons 
-                name="delete"
-                color= "black"
-                size={17}>
-        </MaterialCommunityIcons>
+      <MaterialCommunityIcons name="trash-can" size={18} color="black" />
      </TouchableOpacity>
   </View>
 );
@@ -113,11 +109,7 @@ const BlankWorkout = () => {
             <View style={styles.exerciseHeader}>
               <Text style={styles.exerciseText}>{exercise.name}</Text>
               <TouchableOpacity onPress={() => handleDeleteExercise(exerciseIndex)}>
-                <MaterialCommunityIcons 
-                  name="delete"
-                  color= "black"
-                  size={17}>
-                </MaterialCommunityIcons>
+                <MaterialCommunityIcons name="trash-can" size={18} color="black" />
               </TouchableOpacity>
             </View>
 
