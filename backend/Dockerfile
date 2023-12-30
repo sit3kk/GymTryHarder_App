@@ -19,8 +19,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of your application code
 COPY . .
 
-# Set the port to expose
-EXPOSE 80
+# Set the port to expose (443 for HTTPS)
+EXPOSE 443
 
 # Command to run your application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
+# Ensure the path to SSL certificates is correct and they are included in your project
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "443", "--ssl-certfile", "cert.pem", "--ssl-keyfile", "key.pem"]
