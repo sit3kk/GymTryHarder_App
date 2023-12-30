@@ -1,14 +1,13 @@
-from fastapi import APIRouter, FastAPI, HTTPException, Depends
-from models import UserModel, Base
-from schemas import User, UserCreate
+from fastapi import APIRouter, FastAPI, HTTPException, Depends, status
+from models import UserModel, Base, WorkoutModel
+from schemas import User, UserCreate, JsonPlan
 from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_db
 from factories import UserFactory
 from security import authenticate_user, create_access_token
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
-from typing import Any
-from typing import Optional, Annotated
+from typing import Optional, Annotated, Any
 from schemas import Token
 from fastapi import Security
 from database import engine, test_connection
@@ -18,9 +17,10 @@ from security import get_current_active_user
 from sqlalchemy import select
 from security import get_password_hash
 from database import async_session
-from models import ExerciseModel, Training, SeriesModel
-from schemas import TrainingCreate, TrainingExerciseAdd, ExerciseCreate, ExerciseSeriesAdd
-
+#from models import ExerciseModel, Training, SeriesModel
+#from schemas import TrainingCreate, TrainingExerciseAdd, ExerciseCreate, ExerciseSeriesAdd
+import json
+from utils import get_all_user_plans
 
 load_dotenv()
 
@@ -169,6 +169,56 @@ async def get_current_user_information(current_user: UserModel = Depends(get_cur
     return user_data
 
 
+
+from factories import WorkoutFactory
+
+@router.post("/save_training/")
+async def save_training(jsonPlan : str, db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
+    
+    training_created = await WorkoutFactory.create_workout(db, jsonPlan, userId = current_user.id)
+    
+    print(training_created)
+    if training_created is None:
+        raise HTTPException(status_code=400, detail="The training has not been created")
+    return training_created
+
+
+
+@router.get("/get_trainings/")
+async def get_trainings(db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
+        training_plans = await get_all_user_plans(db, current_user.id)
+    
+        if training_plans is None:
+            raise HTTPException(status_code=500, detail="An error occurred while retrieving training plans.")
+
+        return training_plans
+
+
+@router.delete("/delete_plan/{plan_id}")
+async def delete_plan(plan_id: int, db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
+    # Fetch the workout plan by ID and check if it belongs to the current user
+    result = await db.execute(select(WorkoutModel).filter(WorkoutModel.id == plan_id, WorkoutModel.creatorid == current_user.id))
+    workout_plan = result.scalar()
+
+    if not workout_plan:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Workout plan not found or not owned by the current user.")
+
+    # Delete the workout plan
+    await db.delete(workout_plan)
+    await db.commit()
+
+    return {"detail": "Workout plan deleted successfully."}
+
+
+"""
+@router.get("/get_exercises/")
+async def get_exercises(db: AsyncSession = Depends(get_db)):
+    exercises = await db.execute(select(ExerciseModel))
+    exercises = exercises.scalars().all()
+    return {"exercises": exercises}
+
+
+
 @router.post("/add_exercise/")
 async def add_exercise(exercise: ExerciseCreate, db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
     
@@ -184,12 +234,11 @@ async def add_exercise(exercise: ExerciseCreate, db: AsyncSession = Depends(get_
     
     return {"message": "Exercise added successfully"}
 
-
-@router.get("/get_exercises/")
-async def get_exercises(db: AsyncSession = Depends(get_db)):
-    exercises = await db.execute(select(ExerciseModel))
-    exercises = exercises.scalars().all()
-    return {"exercises": exercises}
+@router.get("/my_trainings/")
+async def list_my_trainings(db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
+    trainings = await db.execute(select(Training).where(Training.user_id == current_user.id))
+    trainings = trainings.scalars().all()
+    return {"trainings": trainings}
 
 
 @router.post("/trainings/")
@@ -231,15 +280,6 @@ async def add_series_to_exercise(exercise_id: int, series_data: ExerciseSeriesAd
     await db.commit()
     return {"message": "Series added to exercise"}
 
-
-
-@router.get("/my_trainings/")
-async def list_my_trainings(db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
-    trainings = await db.execute(select(Training).where(Training.user_id == current_user.id))
-    trainings = trainings.scalars().all()
-    return {"trainings": trainings}
-
-"""
 from fastapi import UploadFile, File
 @router.patch("/users/me/photo")
 async def set_photo(photo: UploadFile = File(...), db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):

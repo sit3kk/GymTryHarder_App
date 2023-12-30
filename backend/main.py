@@ -17,12 +17,13 @@ from fastapi import FastAPI
 from routes import router, init_db
 from fastapi import Security
 from database import engine, test_connection
+from fastapi import Request
+from fastapi.responses import RedirectResponse
+
+
 
 app = FastAPI()
 app.include_router(router)
-
-
-
 
 load_dotenv()
 
@@ -34,6 +35,14 @@ load_dotenv()
 #async def shutdown():
    # await engine.dispose()
 
+'''
+@app.middleware("http")
+async def redirect_to_https(request: Request, call_next):
+    if request.url.scheme == "http":
+        url = request.url.replace(scheme="https", port=443)
+        return RedirectResponse(url)
+    return await call_next(request)
+'''
 
 
 @app.on_event("startup")

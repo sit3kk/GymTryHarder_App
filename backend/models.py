@@ -14,10 +14,7 @@ follow_association = Table('follow_association', Base.metadata,
     Column('followed_id', Integer, ForeignKey('users.id'), primary_key=True)
 )
 
-training_exercise = Table('training_exercise', Base.metadata,
-    Column('training_id', Integer, ForeignKey('trainings.id')),
-    Column('exercise_id', Integer, ForeignKey('exercises.id'))
-)
+
 
 
 class UserModel(Base):
@@ -44,9 +41,45 @@ class UserModel(Base):
         backref="followers"
     )
 
-    trainings = relationship("Training", back_populates="user")
+  #  trainings = relationship("Training", back_populates="user")
 
 
+
+
+
+class WorkoutModel(Base):
+    __tablename__ = 'workouts'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    creatorid = Column(Integer, ForeignKey('users.id'))
+    name = Column(String(50))
+
+    exercises = relationship(
+        "ExerciseModel",
+        backref="workout",
+        cascade="all, delete, delete-orphan"
+    )
+
+class ExerciseModel(Base):
+    __tablename__ = 'exercises'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    workout_id = Column(Integer, ForeignKey('workouts.id'))
+    name = Column(String(50))
+
+    series = relationship(
+        "SerieModel",
+        backref="exercise",
+        cascade="all, delete, delete-orphan"
+    )
+
+class SerieModel(Base):
+    __tablename__ = 'series'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    exercise_id = Column(Integer, ForeignKey('exercises.id'))
+    counter = Column(Integer)
+    weight = Column(Float)
+    reps = Column(Integer)
+
+## chuj wie co z tym
 class BodyPart(enum.Enum):
     whole_body = "whole_body"
     legs = "legs"
@@ -57,6 +90,16 @@ class BodyPart(enum.Enum):
     triceps = "triceps"
     core = "core"
     forearms = "forearms"
+
+
+
+
+
+''''
+training_exercise = Table('training_exercise', Base.metadata,
+    Column('training_id', Integer, ForeignKey('trainings.id')),
+    Column('exercise_id', Integer, ForeignKey('exercises.id'))
+)
 
 
 class SeriesModel(Base):
@@ -90,3 +133,5 @@ class Training(Base):
     exercises = relationship("ExerciseModel", secondary=training_exercise, back_populates="trainings")    
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship("UserModel", back_populates="trainings")
+
+'''
