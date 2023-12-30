@@ -33,6 +33,11 @@ class User(BaseModel):
 class UserInDb(User):
     hashed_password: str
 
+
+class JsonData(BaseModel):
+    jsonData: str
+
+''''
 class WorkoutExercise(BaseModel):
     name: str
     sets: int
@@ -55,3 +60,4 @@ class TrainingExerciseAdd(BaseModel):
     exercise_id: int
     repetitions: int
     weight: float
+'''

@@ -1,9 +1,10 @@
 
-from models import UserModel
+from models import UserModel, WorkoutModel, ExerciseModel, SerieModel
 from schemas import UserCreate
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import SQLAlchemyError
 from security import pwd_context
+import json
 
 class UserFactory:
     @staticmethod
@@ -30,4 +31,57 @@ class UserFactory:
         except SQLAlchemyError as e:
             await db.rollback() 
             return None
+
+
+
+class WorkoutFactory:
+    @staticmethod
+    async def create_workout(db: AsyncSession, jsonPlan: str, userId: int) -> bool:
+
+
+        
+
+
+        try:
+            dictPlan = json.loads(jsonPlan)
+
+            # Create and add new workout
+            new_workout = WorkoutModel(creatorid=userId, name=dictPlan["name"])
+            db.add(new_workout)
+            await db.flush()  # Flush to get the id assigned
+
+           
+
+            # Iterate over exercises in the JSON plan
+            for exercise in dictPlan["exercises"]:
+                # Create new exercise with the workout_id
+                new_exercise = ExerciseModel(workout_id=new_workout.id, name=exercise["name"])
+                db.add(new_exercise)
+                await db.flush()  # Flush to get the id assigned to new_exercise
+                #print(f"New workout id: {new_exercise.id}")
+                # Iterate over series in the exercise
+                for serie in exercise["series"]:
+                    new_serie = SerieModel(
+                        exercise_id=new_exercise.id,
+                        counter=serie["counter"],
+                        weight=serie["weight"],
+                        reps=serie["reps"]
+                    )
+                    db.add(new_serie)
+
+            # Commit all new records to the database
+            await db.commit()
+            return True
+        except SQLAlchemyError as e:
+            await db.rollback()
+            print(f"Error occurred: {e}")
+            return False
+        
+
+
+
+
+
+
+
 
