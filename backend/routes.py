@@ -1,6 +1,6 @@
 from fastapi import APIRouter, FastAPI, HTTPException, Depends, status
 from models import UserModel, Base, WorkoutModel
-from schemas import User, UserCreate, JsonPlan
+from schemas import User, UserCreate, JsonData
 from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_db
 from factories import UserFactory
