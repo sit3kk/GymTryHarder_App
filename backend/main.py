@@ -1,29 +1,24 @@
-from fastapi import FastAPI, HTTPException, Depends, status, Path, Response  
-from sqlalchemy.orm import Session
-from models import UserModel, Base
-from schemas import UserCreate, Token, User
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import sessionmaker
+from fastapi import FastAPI, HTTPException, Depends, status, Request
 from sqlalchemy.exc import SQLAlchemyError
 from dotenv import load_dotenv
-import os
-from schemas import Token
-from fastapi import Depends, FastAPI, HTTPException
-from typing import Any
-from typing import Optional, Annotated
-from datetime import timedelta
-from database import get_db
-from fastapi import FastAPI
-from routes import router, init_db
-from fastapi import Security
-from database import engine, test_connection
-from fastapi import Request
-from fastapi.responses import RedirectResponse
+import ssl
+import uvicorn
 
+from routes import router, init_db
+from database import engine, test_connection
 
 
 app = FastAPI()
 app.include_router(router)
+
+ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+ssl_context.load_cert_chain('cert.pem', keyfile='key.pem')
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, ssl_certfile='cert.pem', ssl_keyfile='key.pem')
+
+
+#uvicorn main:app --ssl-keyfile key.pem --ssl-certfile cert.pem
 
 load_dotenv()
 
