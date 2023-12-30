@@ -5,12 +5,12 @@ import * as SecureStore from 'expo-secure-store';
 interface AuthProps {
     authState?: {token: string | null; authenticated: boolean | null};
     onRegister?: (fullName: string, email: string, password:string) => Promise<any>;
-    onLogin?: (email: string, password:string) => Promise<any>;
+    onLogin?: (username: string, password:string) => Promise<any>;
     onLogout?: () => Promise<any>;
 }
 
 const TOKEN_KEY = 'my-jwt';
-export const API_URL = 'http://localhost:3000';
+export const API_URL = 'https://0.0.0.0:80';
 const AuthContex = createContext<AuthProps>({});
 
 export const useAuth = () => {
@@ -51,18 +51,18 @@ export const AuthProvider = ({children}: any) =>{
         }
     }
 
-    const login = async (email: string, password: string) =>{
+    const login = async (username: string, password: string) =>{
         try{
-            const result = await axios.post(`${API_URL}/token`, {email, password});
+            const result = await axios.post(`${API_URL}/token`, {username, password});
 
             setAuthState({
-                token: result.data.token,
+                token: result.data.access_token,
                 authenticated: true
             })
 
-            axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
+            axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.access_token}`;
 
-            await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+            await SecureStore.setItemAsync(TOKEN_KEY, result.data.access_token);
 
             return result;
         }catch(e){
