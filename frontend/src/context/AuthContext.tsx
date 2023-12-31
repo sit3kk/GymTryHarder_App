@@ -10,7 +10,7 @@ interface AuthProps {
 }
 
 const TOKEN_KEY = 'my-jwt';
-export const API_URL = 'http://localhost:3000';
+export const API_URL = 'https://3.121.219.180';
 const AuthContex = createContext<AuthProps>({});
 
 export const useAuth = () => {
@@ -66,9 +66,14 @@ export const AuthProvider = ({children}: any) =>{
 
             return result;
         }catch(e){
-            return {error: true, msg: (e as any).response.data.msg};
+            console.error(e.message);
+            console.error(e.name);
+            console.error(e.code);
+            console.error(e.config);
+            console.error(e.request);
         }
     }
+    //["message", "name", "code", "config", "request"]
 
     const logout = async () =>{
         await SecureStore.deleteItemAsync(TOKEN_KEY);
