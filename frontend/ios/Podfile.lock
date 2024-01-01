@@ -649,7 +649,7 @@ DEPENDENCIES:
   - RNScreens (from `../node_modules/react-native-screens`)
   - RNSslPinning (from `../node_modules/react-native-ssl-pinning`)
   - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-  - TrustKit
+  - TrustKit (= 3.0.3)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -854,6 +854,6 @@ SPEC CHECKSUMS:
   Yoga: b76f1acfda8212aa16b7e26bcce3983230c82603
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: c35fd8c67a8f78a986bc0fba3835f9bb7061aa2a
+PODFILE CHECKSUM: cd22b20636253aa0382689d6f5f4118815b98890
 
 COCOAPODS: 1.14.2

@@ -1,11 +1,12 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import axios from "axios";
 import * as SecureStore from 'expo-secure-store';
+import qs from 'qs';
 
 interface AuthProps {
     authState?: {token: string | null; authenticated: boolean | null};
     onRegister?: (fullName: string, email: string, password:string) => Promise<any>;
-    onLogin?: (email: string, password:string) => Promise<any>;
+    onLogin?: (username: string, password:string) => Promise<any>;
     onLogout?: () => Promise<any>;
 }
 
@@ -51,9 +52,26 @@ export const AuthProvider = ({children}: any) =>{
         }
     }
 
-    const login = async (email: string, password: string) =>{
+    const login = async (username: string, password: string) =>{
         try{
-            const result = await axios.post(`${API_URL}/token`, {email, password});
+            const data = {
+                grant_type: 'password',
+                username: username,
+                password: password,
+                scope: '',
+                client_id: '',
+                client_secret: '',
+              };
+          
+              const result = await axios.post(
+                `${API_URL}/token`,
+                qs.stringify(data),
+                {
+                  headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                  },
+                }
+              );
 
             setAuthState({
                 token: result.data.token,
