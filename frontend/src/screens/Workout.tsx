@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet } from "react-native";
 import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
@@ -13,7 +13,14 @@ interface Exercise {
   }[];
 }
 
-const SeriesBar = ({ counter, weight, reps, onWeightChange, onRepsChange, onDelete }: { counter: number; weight: number; reps: number; onWeightChange: (weight: number) => void; onRepsChange: (reps: number) => void; onDelete: () => void }) => (
+const SeriesBar = ({ counter, weight, reps, onWeightChange, onRepsChange, onDelete }:
+  { counter: number;
+    weight: number;
+    reps: number; 
+    onWeightChange: (weight: number) => void; 
+    onRepsChange: (reps: number) => void; 
+    onDelete: () => void 
+  }) => (
   <View style={styles.seriesContainer}>
     <Text style={styles.seriesText}>{`${counter}.`}</Text>
     <TextInput
@@ -40,6 +47,44 @@ const BlankWorkout = () => {
   const navigation = useNavigation<WorkoutNavigationProp>();
 
   const [exercises, setExercises] = useState<Exercise[]>([]);
+  const [title, setTitle] = useState<String>("New Workout");
+
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [currentTime, setCurrentTime] = useState<number | null>(null);
+
+  useEffect(() => {
+    startTimer(); // Rozpoczęcie odliczania czasu po zamontowaniu komponentu
+  }, []);
+  // Efekt, który aktualizuje currentTime co sekundę
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000);
+
+    // Czyszczenie interwału po odłączeniu komponentu
+    return () => clearInterval(intervalId);
+  }, []); // Pusta tablica zależności oznacza, że efekt uruchomi się tylko raz po zamontowaniu komponentu
+
+  // Funkcja do rozpoczęcia odliczania czasu
+  const startTimer = () => {
+    setStartTime(Date.now());
+  };
+
+  React.useEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <TextInput
+          style={styles.headerTitleInput}
+          value={title}
+          onChangeText={handleChangeTitle}
+        />
+      )
+    });
+  }, [navigation, title]);
+
+  const handleChangeTitle = (newTitle: string) =>{
+      setTitle(newTitle);
+  }
 
   const handleAddExercisePress = () => {
     navigation.navigate("Choose Exercise", {
@@ -104,6 +149,11 @@ const BlankWorkout = () => {
   return (
     <SafeAreaView style={{ flex: 1, padding: 0, margin: 15 }}>
       <ScrollView style={{ flex: 1 }}>
+        <View style={styles.timerContainer}>
+          <Text style={styles.timerText}>
+          Start time - {startTime ? `${Math.floor((startTime) / 600000000000)} minutes ago` : "Timer Not Started"}
+          </Text>
+        </View>
         {exercises.map((exercise, exerciseIndex) => (
           <View key={exerciseIndex} style={styles.exerciseContainer}>
             <View style={styles.exerciseHeader}>
@@ -199,6 +249,32 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     textAlign: 'center'
   },
+
+  headerTitleInput: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'black',
+    padding: 8,
+  },
+
+  headerButtonText: {
+    fontSize: 16,
+    color: 'black',
+    fontWeight: 'bold',
+    marginRight: 15,
+  },
+  timerContainer: {
+    backgroundColor: '#e0e0e0',
+    padding: 10,
+    borderRadius: 10,
+    margin: 10,
+    alignItems: 'center',
+  },
+  timerText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+
 });
 
 
