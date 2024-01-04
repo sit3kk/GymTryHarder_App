@@ -35,6 +35,11 @@ async def get_password_hash(password):
 async def get_user(db, username: str):
     user = await db.execute(select(UserModel).filter(UserModel.username == username))
     return user.scalar_one_or_none()
+
+
+async def get_user_by_id(db, user_id: int):
+    user = await db.execute(select(UserModel).filter(UserModel.id == user_id))
+    return user.scalar_one_or_none()
     
 async def authenticate_user(db, username: str, password: str):
     user = await get_user(db, username)

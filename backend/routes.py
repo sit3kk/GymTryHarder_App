@@ -1,9 +1,9 @@
-from fastapi import APIRouter, FastAPI, HTTPException, Depends, status
+from fastapi import APIRouter, FastAPI, HTTPException, Depends, status, Query
 from models import UserModel, Base, WorkoutModel
 from schemas import User, UserCreate, JsonData
 from sqlalchemy.ext.asyncio import AsyncSession
 from database import get_db
-from factories import UserFactory
+from factories import PlanFactory, UserFactory
 from security import authenticate_user, create_access_token
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
@@ -15,12 +15,12 @@ from dotenv import load_dotenv
 import os
 from security import get_current_active_user
 from sqlalchemy import select
-from security import get_password_hash
+from security import get_password_hash, get_user_by_id
 from database import async_session
 #from models import ExerciseModel, Training, SeriesModel
 #from schemas import TrainingCreate, TrainingExerciseAdd, ExerciseCreate, ExerciseSeriesAdd
 import json
-from utils import get_all_user_plans,log_login_attempt
+from utils import get_all_user_plans, get_all_user_workouts,log_login_attempt
 
 load_dotenv()
 
@@ -175,28 +175,79 @@ async def get_current_user_information(current_user: UserModel = Depends(get_cur
 
 from factories import WorkoutFactory
 
-@router.post("/save_training/")
+@router.post("/save_workout/")
+async def save_workout(jsonPlan : str, db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
+    
+    workout_created = await WorkoutFactory.create_workout(db, jsonPlan, userId = current_user.id)
+    
+    if workout_created is None:
+        raise HTTPException(status_code=400, detail="The workout has not been created")
+    return workout_created
+
+
+#Controller
+@router.get("/get_workouts/")
+async def get_workouts(
+    db: AsyncSession = Depends(get_db), 
+    current_user: UserModel = Depends(get_current_active_user),
+    user_id: int = Query(None)  # User ID is optional
+):
+    
+
+    if user_id is not None and await get_user_by_id(db, user_id) is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    target_user_id = user_id if user_id is not None else current_user.id
+
+    if get_user_by_id(db, target_user_id) is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    workout_plans = await get_all_user_workouts(db, target_user_id)
+    
+    if workout_plans is None:
+        raise HTTPException(status_code=500, detail="An error occurred while retrieving training plans.")
+
+    return workout_plans
+
+
+
+@router.post("/save_plan")
 async def save_training(jsonPlan : str, db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
     
-    training_created = await WorkoutFactory.create_workout(db, jsonPlan, userId = current_user.id)
+    training_created = await PlanFactory.create_plan(db, jsonPlan, userId = current_user.id)
     
-    print(training_created)
     if training_created is None:
         raise HTTPException(status_code=400, detail="The training has not been created")
     return training_created
 
 
 
-#Controller
-@router.get("/get_trainings/")
-async def get_trainings(db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
-        training_plans = await get_all_user_plans(db, current_user.id)
+@router.get("/get_plans/")
+async def get_plans(
+    db: AsyncSession = Depends(get_db), 
+    current_user: UserModel = Depends(get_current_active_user),
+    user_id: int = Query(None)  # User ID is optional
+):
     
-        if training_plans is None:
-            raise HTTPException(status_code=500, detail="An error occurred while retrieving training plans.")
 
-        return training_plans
+    if user_id is not None and await get_user_by_id(db, user_id) is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    target_user_id = user_id if user_id is not None else current_user.id
 
+    if get_user_by_id(db, target_user_id) is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    training_plans = await get_all_user_plans(db, target_user_id)
+    
+    if training_plans is None:
+        raise HTTPException(status_code=500, detail="An error occurred while retrieving training plans.")
+
+    return training_plans
+
+
+
+"""
 
 @router.delete("/delete_plan/{plan_id}")
 async def delete_plan(plan_id: int, db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
@@ -214,7 +265,8 @@ async def delete_plan(plan_id: int, db: AsyncSession = Depends(get_db), current_
     return {"detail": "Workout plan deleted successfully."}
 
 
-"""
+
+
 @router.get("/get_exercises/")
 async def get_exercises(db: AsyncSession = Depends(get_db)):
     exercises = await db.execute(select(ExerciseModel))

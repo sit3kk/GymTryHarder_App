@@ -1,3 +1,4 @@
+from sqlalchemy import DateTime
 import enum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, ForeignKey, Table, Enum, Float
@@ -43,15 +44,34 @@ class UserModel(Base):
 
   #  trainings = relationship("Training", back_populates="user")
 
+class TrainingModel(Base):
+    __tablename__ = 'trainings'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    creatorid = Column(Integer, ForeignKey('users.id'))
+    title = Column(String(50), nullable=False)
 
+    exercises = relationship(
+        "ExerciseModel2",
+        backref="training",
+        cascade="all, delete, delete-orphan"
+    )
 
+class ExerciseModel2(Base):
+    __tablename__ = 'exercises2'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    training_id = Column(Integer, ForeignKey('trainings.id'))
+    exercise_id = Column(Integer, nullable=False) 
+    num_series = Column(Integer, nullable=False)  
 
+    
 
 class WorkoutModel(Base):
     __tablename__ = 'workouts'
     id = Column(Integer, primary_key=True, autoincrement=True)
     creatorid = Column(Integer, ForeignKey('users.id'))
-    name = Column(String(50))
+    title = Column(String(50), nullable=False)
+    start_training = Column(DateTime, nullable=False)
+    end_training = Column(DateTime, nullable=False)
 
     exercises = relationship(
         "ExerciseModel",
@@ -64,6 +84,7 @@ class ExerciseModel(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     workout_id = Column(Integer, ForeignKey('workouts.id'))
     name = Column(String(50))
+    exercise_id = Column(Integer, nullable=False)
 
     series = relationship(
         "SerieModel",

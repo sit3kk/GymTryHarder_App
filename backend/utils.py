@@ -10,12 +10,12 @@ from getpass import getpass
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
-from models import WorkoutModel, ExerciseModel, SerieModel
+from models import WorkoutModel, ExerciseModel, SerieModel, TrainingModel, ExerciseModel2
 
 
 
 #View
-async def get_all_user_plans(db: AsyncSession, user_id: int):
+async def get_all_user_workouts(db: AsyncSession, user_id: int):
     try:
         result = await db.execute(select(WorkoutModel).filter(WorkoutModel.creatorid == user_id))
         workouts = result.scalars().all()
@@ -27,7 +27,7 @@ async def get_all_user_plans(db: AsyncSession, user_id: int):
 
             workout_data = {
                 "workout_id": workout.id,
-                "workout_name": workout.name,
+                "workout_tile": workout.title,
                 "exercises": []
             }
 
@@ -77,3 +77,39 @@ def log_login_attempt(func):
                 print(f"Unsuccessful login attempt for user: {request.username}")
             raise http_exc
     return wrapper
+
+
+
+
+async def get_all_user_plans(db: AsyncSession, user_id: int):
+    try:
+        result = await db.execute(select(TrainingModel).filter(TrainingModel.creatorid == user_id))
+        trainings = result.scalars().all()
+
+        user_plans = []
+        for training in trainings:
+            result = await db.execute(select(ExerciseModel2).filter(ExerciseModel2.training_id == training.id))
+            exercises = result.scalars().all()
+
+            training_data = {
+                "plan_id": training.id,
+                "plan_tile": training.title,
+                "exercises": []
+            }
+
+            for exercise in exercises:
+                exercise_data = {
+                    "exercise_id": exercise.id,
+                    "num_series": exercise.num_series
+                }
+
+                training_data["exercises"].append(exercise_data)
+
+            user_plans.append(training_data)
+
+        return user_plans
+
+    except Exception as e:
+        # Handle or log the error as needed
+        print(f"Error occurred: {e}")
+        return None
