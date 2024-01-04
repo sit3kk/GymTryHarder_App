@@ -16,7 +16,7 @@ follow_association = Table('follow_association', Base.metadata,
 
 
 
-
+#Model
 class UserModel(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True, autoincrement=True)
