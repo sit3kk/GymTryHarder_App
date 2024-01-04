@@ -30,37 +30,53 @@ Fitness application designed to cater to individual fitness goals and community 
 ### 🌟 **PHASE 4 (PERSONALIZATION):**
 - Personalized Recommendations
 
-## 🧩 **Design Patterns:**
+## 🧩 **Design Patterns used in the project:**
 
-### 📐 **MODEL-VIEW-CONTROLLER (MVC):**
-**Use Case:** Organizing your code in a way that separates data handling, user interface rendering, and control flow.
+## 🎨 Decorator Pattern
+**Purpose:**  
+Enhance or modify the behavior of functions or methods without altering their core functionality.
 
-**Example:** Models could represent data structures for users and workouts, views could render user profiles and workout plans, and controllers could handle user inputs like creating a new workout plan.
+**Examples in Project:**
+- **Authentication and Authorization Decorators**:  
+  Used in API routes to ensure only authenticated users access certain endpoints.  
+  Example: Checking for valid tokens before allowing access to user profile updates.
+- **Logging Decorators**:  
+  Applied to log activities like login attempts and user actions.  
+  Example: Logging successful or failed login attempts, and user data access or updates.
+- **Error Handling Decorators**:  
+  Handle exceptions and errors in API routes, ensuring consistent error response formats and logging for debugging.
 
-### 🔗 **SINGLETON:**
-**Use Case:** Ensuring a class has only a single instance and providing a global point of access to that instance.
+## 📐 Model-View-Controller (MVC)
+**Purpose:**  
+Separate application logic into three interconnected components: models, views, and controllers.
 
-**Example:** Managing a single database connection pool to ensure efficient database access across your app.
+**Examples in Project:**
+- **Models (`models.py`)**:  
+  Define data structures such as `UserModel` and `WorkoutModel`, representing the application's data layer.
+- **Views (`utils.py`)**:  
+  Functions like `get_all_user_plans` prepare and present data, acting as the view layer in the application.
+- **Controllers (`routes.py`)**:  
+  Handle the incoming requests, process them using models, and return the appropriate views. Examples include endpoints for user authentication, data retrieval, and updates.
 
-### 🏭 **FACTORY:**
-**Use Case:** Creating objects without specifying the exact class of object that will be created.
+## 🔗 Singleton Pattern
+**Purpose:**  
+Ensure a class has only a single instance, providing a global point of access to it.
 
-**Example:** Creating workout plan objects where different types of workout plans (e.g., strength training, cardio, mixed) may have different properties and behaviors.
+**Examples in Project:**
+- **Database Connection Pool**:  
+  Manages a single database connection pool for efficient database access across the application.
 
-### 🎨 **DECORATOR:**
-**Use Case:** Adding new functionality to an object without altering its structure.
+## 🏭 Factory Pattern
+**Purpose:**  
+Create objects without specifying the exact class of the object that will be created.
 
-**Example:** Extending the functionalities of API endpoints, like adding authentication checks or input validation without modifying the existing code structure.
+**Examples in Project:**
+- **Workout Plan Creation ('factories.py')**:  
+  Factory to create new sets of exercises.
+- **User Creation ('factories.py')**:  
+  Factory to create new user in system.
 
-### 🔔 **OBSERVER:**
-**Use Case:** Allowing an object to publish changes to its state so that other objects can react accordingly.
 
-**Example:** Notifying users of new social interactions like friend requests, comments, or shared achievements in real-time.
-
-### 🔄 **STRATEGY:**
-**Use Case:** Allowing a family of algorithms to be defined and encapsulated within a class. The algorithm can be selected at runtime.
-
-**Example:** Allowing users to switch between different workout recommendation algorithms based on their preferences and goals.
 
 
 
