@@ -20,7 +20,7 @@ from database import async_session
 #from models import ExerciseModel, Training, SeriesModel
 #from schemas import TrainingCreate, TrainingExerciseAdd, ExerciseCreate, ExerciseSeriesAdd
 import json
-from utils import get_all_user_plans
+from utils import get_all_user_plans,log_login_attempt
 
 load_dotenv()
 
@@ -57,7 +57,10 @@ async def register_user(user: UserCreate, db: AsyncSession = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Username already exists or error occurred")
     return user_created
 
+
+
 @router.post("/token", response_model=Token)
+@log_login_attempt
 async def login(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     db: AsyncSession = Depends(get_db)
@@ -184,6 +187,7 @@ async def save_training(jsonPlan : str, db: AsyncSession = Depends(get_db), curr
 
 
 
+#Controller
 @router.get("/get_trainings/")
 async def get_trainings(db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
         training_plans = await get_all_user_plans(db, current_user.id)

@@ -1,5 +1,6 @@
 import jwt
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Request
+from functools import wraps
 from fastapi.security import OAuth2PasswordBearer
 from security import oauth2_scheme
 from models import UserModel
@@ -11,6 +12,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from models import WorkoutModel, ExerciseModel, SerieModel
 
+
+
+#View
 async def get_all_user_plans(db: AsyncSession, user_id: int):
     try:
         result = await db.execute(select(WorkoutModel).filter(WorkoutModel.creatorid == user_id))
@@ -52,3 +56,24 @@ async def get_all_user_plans(db: AsyncSession, user_id: int):
         # Handle or log the error as needed
         print(f"Error occurred: {e}")
         return None
+
+
+
+
+#Decorators
+def log_login_attempt(func):
+    @wraps(func)
+    async def wrapper(*args, **kwargs):
+        request: Request = kwargs.get('form_data', None)  # Assuming 'form_data' is passed to your endpoint
+        try:
+            response = await func(*args, **kwargs)
+            if request:
+                # Log successful login
+                print(f"Successful login for user: {request.username}")
+            return response
+        except HTTPException as http_exc:
+            if request:
+                # Log unsuccessful login attempt
+                print(f"Unsuccessful login attempt for user: {request.username}")
+            raise http_exc
+    return wrapper
