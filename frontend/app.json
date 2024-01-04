@@ -1,4 +1,25 @@
 {
-  "name": "frontend",
-  "displayName": "frontend"
+  "name": "main",
+  "displayName": "frontend",
+  "expo": {
+    "ios": {
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.anonymous.frontend",
+      "infoPlist": {
+        "NSAppTransportSecurity" : {
+          "NSAllowsArbitraryLoads" : true
+        }
+      }
+    },
+    "android": {
+      "package": "com.anonymous.frontend"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b4bc7e7c-1e0d-473c-b629-8a8f205db144"
+      }
+    }
+  }
 }
