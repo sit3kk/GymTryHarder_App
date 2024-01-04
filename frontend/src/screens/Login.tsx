@@ -26,7 +26,7 @@ function Login(){
             <View style={styles.inputView}>
                 <TextInput 
                     style={styles.TextInput} 
-                    placeholder="Enter email address" 
+                    placeholder="Enter Username" 
                     onChangeText={(text: string) => setEmail(text)} 
                     value={email} 
                     autoCapitalize="none"

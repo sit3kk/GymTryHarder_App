@@ -7,19 +7,12 @@ import { LoginNavigationProp } from "../navigation/AppNavigation";
 
 const Registration = () =>{
     const navigation = useNavigation<LoginNavigationProp>();
-    const [fullName, setFullName] = useState('');
+    const [username, setUsername] = useState('');
+    const [full_name, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordRep, setPasswordRep] = useState('');
-    const {onLogin, onRegister} = useAuth();
-
-    const login = async () => {
-        const result = await onLogin!(email, password);
-
-        if(result && result.error){
-            Alert.alert(result.msg);
-        }
-    }
+    const {onRegister} = useAuth();
 
     const register = async () => {
         if (password !== passwordRep) {
@@ -27,13 +20,25 @@ const Registration = () =>{
             return;
         }
 
-        const result = await onRegister!(fullName, email, password);
+        const result = await onRegister!(username, email, password, full_name);
 
         if(result && result.error){
             Alert.alert(result.msg);
         }
         else{
-            login();
+            Alert.alert(
+                "Registration Successful",
+                "You can now log in with your credentials.",
+                [
+                  {
+                    text: "OK",
+                    onPress: () => {
+                      navigation.navigate("Login");
+                    },
+                  },
+                ]
+              );
+              
         }
     }
 
@@ -44,10 +49,21 @@ const Registration = () =>{
             <View style={styles.inputView}>
                 <TextInput 
                     style={styles.TextInput} 
+                    placeholder="Enter Username" 
+                    autoCapitalize="none" 
+                    onChangeText={(text: string) => setUsername(text)} 
+                    value={username} 
+                    placeholderTextColor='gray'
+                    />
+            </View>
+
+            <View style={styles.inputView}>
+                <TextInput 
+                    style={styles.TextInput} 
                     placeholder="Enter Full Name" 
                     autoCapitalize="none" 
                     onChangeText={(text: string) => setFullName(text)} 
-                    value={fullName} 
+                    value={full_name} 
                     placeholderTextColor='gray'
                     />
             </View>
