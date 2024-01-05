@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet } from "react-native";
 import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import SeriesBar from "../components/SeriesBar";
 
 interface Exercise {
   name: string;
@@ -13,62 +14,11 @@ interface Exercise {
   }[];
 }
 
-const SeriesBar = ({ counter, weight, reps, onWeightChange, onRepsChange, onDelete }:
-  { counter: number;
-    weight: number;
-    reps: number; 
-    onWeightChange: (weight: number) => void; 
-    onRepsChange: (reps: number) => void; 
-    onDelete: () => void 
-  }) => (
-  <View style={styles.seriesContainer}>
-    <Text style={styles.seriesText}>{`${counter}.`}</Text>
-    <TextInput
-      style={styles.seriesInput}
-      placeholder="Weight"
-      value={weight ? weight.toString() : ''}
-      keyboardType="numeric"
-      onChangeText={(text) => onWeightChange(Number(text))}
-    />
-    <TextInput
-      style={styles.seriesInput}
-      placeholder="Reps"
-      value={reps ? reps.toString() : ''}
-      keyboardType="numeric"
-      onChangeText={(text) => onRepsChange(Number(text))}
-    />
-    <TouchableOpacity onPress={onDelete}>
-      <MaterialCommunityIcons name="trash-can" size={18} color="black" />
-     </TouchableOpacity>
-  </View>
-);
-
-const BlankWorkout = () => {
+const NewWorkout = () => {
   const navigation = useNavigation<WorkoutNavigationProp>();
 
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [title, setTitle] = useState<String>("New Workout");
-
-  const [startTime, setStartTime] = useState<number | null>(null);
-  const [currentTime, setCurrentTime] = useState<number | null>(null);
-
-  useEffect(() => {
-    startTimer(); // Rozpoczęcie odliczania czasu po zamontowaniu komponentu
-  }, []);
-  // Efekt, który aktualizuje currentTime co sekundę
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(Date.now());
-    }, 1000);
-
-    // Czyszczenie interwału po odłączeniu komponentu
-    return () => clearInterval(intervalId);
-  }, []); // Pusta tablica zależności oznacza, że efekt uruchomi się tylko raz po zamontowaniu komponentu
-
-  // Funkcja do rozpoczęcia odliczania czasu
-  const startTimer = () => {
-    setStartTime(Date.now());
-  };
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -149,11 +99,6 @@ const BlankWorkout = () => {
   return (
     <SafeAreaView style={{ flex: 1, padding: 0, margin: 15 }}>
       <ScrollView style={{ flex: 1 }}>
-        <View style={styles.timerContainer}>
-          <Text style={styles.timerText}>
-          Start time - {startTime ? `${Math.floor((startTime) / 600000000000)} minutes ago` : "Timer Not Started"}
-          </Text>
-        </View>
         {exercises.map((exercise, exerciseIndex) => (
           <View key={exerciseIndex} style={styles.exerciseContainer}>
             <View style={styles.exerciseHeader}>
@@ -190,19 +135,9 @@ const BlankWorkout = () => {
     </SafeAreaView>
   );
 };
-export default BlankWorkout;
+export default NewWorkout;
 
 const styles = StyleSheet.create({
-  seriesContainer: {
-    flexDirection: "row",
-    justifyContent: 'center',
-    alignItems: "center",
-    marginTop: 5,
-    padding: 0,
-    backgroundColor: "#DDDDDD",
-    borderRadius: 30,
-    height: 15,
-  },
   exerciseContainer:{
     backgroundColor:'#bfbfbf',
     padding: 10, 
@@ -215,15 +150,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 5,
     marginHorizontal: 15
-  },
-  seriesText: {
-    alignSelf: 'flex-start',
-  },
-  seriesInput: {
-    flex: 1,
-    textAlign: "center",
-    borderColor: "transparent",
-    borderBottomWidth: 0,
   },
   seriesButton: {
     marginTop: 10,
