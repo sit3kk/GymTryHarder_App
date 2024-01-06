@@ -5,7 +5,7 @@ import qs from 'qs';
 
 interface AuthProps {
     authState?: {token: string | null; authenticated: boolean | null};
-    onRegister?: (fullName: string, email: string, password:string) => Promise<any>;
+    onRegister?: (username: string, email: string, password: string, full_name: string) => Promise<any>;
     onLogin?: (username: string, password:string) => Promise<any>;
     onLogout?: () => Promise<any>;
 }
@@ -43,13 +43,28 @@ export const AuthProvider = ({children}: any) =>{
     }, [])
 
 
-    const register = async (fullName: string, email: string, password: string) =>{
-        try{
-            return await axios.post(`${API_URL}/register`, {fullName, email, password});
-        }catch(e){
-            return {error: true, msg: (e as any).response.data.msg};
+    const register = async (username: string, email: string, password: string, full_name: string) => {
+        try {
+          const requestBody = {
+            username,
+            email,
+            password,
+            full_name,
+            photo: "string", 
+            height: 0,       
+            weight: 0       
+          };
+      
+          return await axios.post(`${API_URL}/register`, requestBody);
+        } catch (e) {
+            return { error: true, msg: (e as any).response.data.msg };
+            //console.error(e.message);
+            //console.error(e.name);
+            //console.error(e.code);
+            //console.error(e.config);
+            //console.error(e.request);
         }
-    }
+      };
 
     const login = async (username: string, password: string) =>{
         try{
