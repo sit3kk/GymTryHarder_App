@@ -1,4 +1,3 @@
-
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Settings from '../screens/Settings';
 import Exercises from '../screens/Exercises';
@@ -6,10 +5,10 @@ import Home from '../screens/Home';
 import Stats from '../screens/Stats';
 import StartWorkout from '../screens/StartWorkout';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import BlankWorkout from '../screens/Workout';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import WorkoutFinishButton from '../components/WorkoutFinishButton';
 import ChooseExercise from '../screens/ChooseExercise';
+import NewWorkout from '../screens/Workout';
 
 export type WorkoutStackParamList = {
   'Home': undefined
@@ -62,17 +61,18 @@ function HomeNavigation(){
         <Stack.Screen 
             name="Home" 
             component={HomeTabs} 
-            options={{headerShown: false}}/>
+            options={{headerShown: false}}
+        />
         <Stack.Screen 
             name="New Workout" 
-            component={BlankWorkout}
+            component={NewWorkout}
             options={{ headerLeft: () => <WorkoutFinishButton />}} 
-             
         />
         <Stack.Screen 
             name="Choose Exercise" 
             component={ChooseExercise} 
-            options={{headerShown: true,  animation:"slide_from_bottom"}}/>
+            options={{headerShown: true,  animation:"slide_from_bottom"}}
+        />
       </Stack.Navigator>
     )
 }
