@@ -1,8 +1,11 @@
+import { useNavigation } from "@react-navigation/native";
 import React from "react"
 import { Alert, SafeAreaView , StyleSheet, Text, TouchableOpacity} from "react-native"
 import { useAuth } from "../context/AuthContext";
+import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
 
 const Settings = () =>{
+    const navigation = useNavigation<WorkoutNavigationProp>();
     const {onLogout} = useAuth();
 
     const logout = async () => {
@@ -16,6 +19,9 @@ const Settings = () =>{
         <SafeAreaView style={{flex: 1, padding: 20, margin: 17}}>
             <TouchableOpacity style={styles.loginBtn} onPress={logout}>
                 <Text style={styles.LoginText}>Logout</Text> 
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.loginBtn} onPress={() => navigation.navigate('Profile')}>
+                <Text style={styles.LoginText}>Profile</Text> 
             </TouchableOpacity>
         </SafeAreaView>
     )
