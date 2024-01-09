@@ -247,6 +247,38 @@ async def get_plans(
 
 
 
+
+@router.patch("/set_photo")
+async def set_photo(
+    photo: str,
+    db: AsyncSession = Depends(get_db), 
+    current_user: UserModel = Depends(get_current_active_user),
+    user_id: int = Query(None),  # User ID is optional
+):
+
+    if user_id is not None: current_user = await get_user_by_id(db, user_id)
+
+    if current_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    current_user.photo = photo
+
+    db.add(current_user)
+    await db.commit()
+
+    return {"message": "Photo updated successfully"}
+
+
+@router.get("/get_users")
+async def get_users(
+    db: AsyncSession = Depends(get_db), 
+):
+
+    users = await db.execute(select(UserModel))
+    users = users.scalars().all()
+    return {"users": users}
+
+
 """
 
 @router.delete("/delete_plan/{plan_id}")
