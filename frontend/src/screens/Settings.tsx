@@ -22,8 +22,8 @@ const Settings = () => {
           <Text style={styles.buttonText}>Profile</Text>
         </TouchableOpacity>
         <View style={styles.divider}></View>
-        <TouchableOpacity style={styles.rectangle}>
-          <Text style={styles.buttonText}>Templates</Text>
+        <TouchableOpacity style={styles.rectangle} onPress={() => navigation.navigate('Create Template')}>
+          <Text style={styles.buttonText}>Workout Templates</Text>
         </TouchableOpacity>
         <View style={styles.divider}></View>
         <TouchableOpacity style={styles.rectangle}>

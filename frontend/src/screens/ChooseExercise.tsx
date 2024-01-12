@@ -10,7 +10,7 @@ import { WorkoutStackParamList } from "../navigation/HomeNavigation";
 type ChooseExerciseRouteProp = RouteProp<WorkoutStackParamList, "Choose Exercise">;
 
 type ChooseExerciseProps = {
-  route: ChooseExerciseRouteProp;
+  route: ChooseExerciseRouteProp,
 };
 
 const muscleGroups = ["All", "Chest", "Legs", "Abs", "Glutes", "Back", "Shoulders", "Triceps", "Biceps", "Forearms"];
@@ -86,7 +86,7 @@ const ChooseExercise: React.FC<ChooseExerciseProps> = ({ route }) => {
         {filteredExercises.map((exercise) => (
           <TouchableOpacity onPress={() => {
             onSelectExercise(exercise.title);
-            navigation.navigate("New Workout");
+            navigation.goBack();
           }}>
             <MiniSingleExercise exercise={exercise} key={exercise.id} />
           </TouchableOpacity>
