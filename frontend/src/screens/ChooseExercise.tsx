@@ -85,7 +85,7 @@ const ChooseExercise: React.FC<ChooseExerciseProps> = ({ route }) => {
       <ScrollView style={styles.scrollView}>
         {filteredExercises.map((exercise) => (
           <TouchableOpacity onPress={() => {
-            onSelectExercise(exercise.title);
+            onSelectExercise(exercise.id, exercise.title);
             navigation.goBack();
           }}>
             <MiniSingleExercise exercise={exercise} key={exercise.id} />

@@ -6,6 +6,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import SeriesBar from "../components/SeriesBar";
 
 interface Exercise {
+  id: number,
   name: string;
   series: {
     counter: number;
@@ -38,8 +39,8 @@ const NewWorkout = () => {
 
   const handleAddExercisePress = () => {
     navigation.navigate("Choose Exercise", {
-      onSelectExercise: (exercise) => {
-        setExercises([...exercises, { name: exercise, series: [{ counter: 1, weight: 0, reps: 0 }] }]);
+      onSelectExercise: (_id, _name) => {
+        setExercises([...exercises, { id: _id, name: _name, series:[{ counter: 1, weight: 0, reps: 0 }] }]);
       },
     });
   };

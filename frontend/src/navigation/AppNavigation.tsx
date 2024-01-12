@@ -28,7 +28,7 @@ export default function AppNavigation(){
 
   return (
     <NavigationContainer>
-      { true ? <HomeNavigation /> : <LoginNavigation /> }
+      { authState?.authenticated ? <HomeNavigation /> : <LoginNavigation /> }
     </NavigationContainer>
   );
 }

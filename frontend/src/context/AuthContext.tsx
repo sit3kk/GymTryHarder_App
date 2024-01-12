@@ -88,13 +88,12 @@ export const AuthProvider = ({children}: any) =>{
               );
 
             setAuthState({
-                token: result.data.token,
+                token: result.data.access_token,
                 authenticated: true
             })
 
-            axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
-
-            await SecureStore.setItemAsync(TOKEN_KEY, result.data.token);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.access_token}`;
+            await SecureStore.setItemAsync(TOKEN_KEY, result.data.access_token);
 
             return result;
         }catch(e){

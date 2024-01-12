@@ -15,7 +15,7 @@ import CreateTemplate from '../screens/CreateTemplate';
 export type WorkoutStackParamList = {
   'Home': undefined
   'New Workout': undefined
-  'Choose Exercise': { onSelectExercise: (exercise: string) => void };
+  'Choose Exercise': { onSelectExercise: (id: number, name: string) => void };
   'Profile': undefined
   "Create Template": undefined
 }
