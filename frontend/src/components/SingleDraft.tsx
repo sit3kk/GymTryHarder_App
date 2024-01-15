@@ -5,7 +5,7 @@ import { ExercisesSet1 } from "../assets/data";
 type DraftProps = {
     draft: {
         plan_id: number,
-        plan_tile: string,
+        plan_title: string,
         exercises: {
             exercise_id: number,
             num_series: number
@@ -14,7 +14,7 @@ type DraftProps = {
 }
 
 const SingleDraft: React.FC<DraftProps> = ({ draft }) => {
-    const { plan_tile, exercises } = draft;
+    const { plan_title, exercises } = draft;
     const [exerciseNames, setExerciseNames] = useState<string[]>([]);
 
     useEffect(() => {
@@ -33,7 +33,7 @@ const SingleDraft: React.FC<DraftProps> = ({ draft }) => {
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
-                <Text style={styles.title}>{plan_tile}</Text>
+                <Text style={styles.title}>{plan_title}</Text>
                 <Text style={styles.exercise} numberOfLines={2} ellipsizeMode="tail">
                     {exerciseNames.join(", ")}
                 </Text>
