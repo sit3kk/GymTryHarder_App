@@ -167,4 +167,43 @@ const ExercisesSet1 = [
   },
 ]
 
+const WorkoutTemplates = [
+  {
+    id: 1,
+    title: 'Training Plan 1',
+    exercises: [
+      { exercise_id: 1, num_series: 3 },
+      { exercise_id: 2, num_series: 2 },
+      { exercise_id: 3, num_series: 4 },
+    ]
+  },
+  {
+    id: 2,
+    title: 'Training Plan 2',
+    exercises: [
+      { exercise_id: 1, num_series: 3 },
+      { exercise_id: 2, num_series: 2 },
+      { exercise_id: 3, num_series: 4 },
+    ]
+  },
+  {
+    id: 3,
+    title: 'Training Plan 3',
+    exercises: [
+      { exercise_id: 1, num_series: 3 },
+      { exercise_id: 2, num_series: 2 },
+      { exercise_id: 3, num_series: 4 },
+    ]
+  },
+  {
+    id: 4,
+    title: 'Training Plan 4',
+    exercises: [
+      { exercise_id: 1, num_series: 3 },
+      { exercise_id: 2, num_series: 2 },
+      { exercise_id: 3, num_series: 4 },
+    ]
+  }
+]
+
 export { TrainingSet1, TrainingSet2, ExercisesSet1 };

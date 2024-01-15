@@ -1,7 +1,8 @@
 import { useNavigation, RouteProp } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import React, { useState } from "react";
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView } from "react-native";
+import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View, ScrollView, TextInput } from "react-native";
+import MaterialCommunityIcons from "react-native-vector-icons/AntDesign";
 import { ExercisesSet1 } from "../assets/data";
 import { MiniSingleExercise } from "../components/SingleExercise";
 import { WorkoutStackParamList } from "../navigation/HomeNavigation";
@@ -9,7 +10,7 @@ import { WorkoutStackParamList } from "../navigation/HomeNavigation";
 type ChooseExerciseRouteProp = RouteProp<WorkoutStackParamList, "Choose Exercise">;
 
 type ChooseExerciseProps = {
-  route: ChooseExerciseRouteProp;
+  route: ChooseExerciseRouteProp,
 };
 
 const muscleGroups = ["All", "Chest", "Legs", "Abs", "Glutes", "Back", "Shoulders", "Triceps", "Biceps", "Forearms"];
@@ -21,6 +22,7 @@ const ChooseExercise: React.FC<ChooseExerciseProps> = ({ route }) => {
 
   const [activeButton, setActiveButton] = useState("All");
   const [filteredExercises, setFilteredExercises] = useState(ExercisesSet1);
+  const [searchText, setSearchText] = useState("");
 
   const handleButtonPress = (button: string) => {
     setActiveButton(button);
@@ -33,8 +35,33 @@ const ChooseExercise: React.FC<ChooseExerciseProps> = ({ route }) => {
     }
   };
 
+  const handleSearch = (text: string) => {
+    setSearchText(text);
+
+    const filtered = ExercisesSet1.filter((exercise) => exercise.title.toLowerCase().includes(text.toLowerCase()));
+    setFilteredExercises(filtered);
+  };
+
+  const handleSearchPress = () => {
+    setActiveButton("All");
+    setFilteredExercises(ExercisesSet1);
+  };
+
   return (
     <SafeAreaView style={{ flex: 1, padding: 20, margin: 17 }}>
+      <View style={styles.searchContainer}>
+          <View style={styles.searchInputContainer}>
+            <MaterialCommunityIcons name="search1" size={18} color="black" style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search exercises..."
+              value={searchText}
+              onChangeText={handleSearch}
+              onFocus={handleSearchPress}
+            />
+          </View>
+      </View>
+
       <View style={styles.buttonContainer}>
         <ScrollView
           horizontal
@@ -58,8 +85,8 @@ const ChooseExercise: React.FC<ChooseExerciseProps> = ({ route }) => {
       <ScrollView style={styles.scrollView}>
         {filteredExercises.map((exercise) => (
           <TouchableOpacity onPress={() => {
-            onSelectExercise(exercise.title);
-            navigation.navigate("New Workout");
+            onSelectExercise(exercise.id, exercise.title);
+            navigation.goBack();
           }}>
             <MiniSingleExercise exercise={exercise} key={exercise.id} />
           </TouchableOpacity>
@@ -114,5 +141,24 @@ const styles = StyleSheet.create({
   scrollView: {
     flex: 1,
     marginTop: 0,
+  },
+  searchContainer: {
+    marginBottom: 10,
+  },
+  searchInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 8,
+    height: 40,
+  },
+  searchIcon: {
+    marginLeft: 10,
+    marginRight: 5,
+  },
+  searchInput: {
+    flex: 1,
+    paddingHorizontal: 5,
   },
 });

@@ -9,11 +9,15 @@ import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-na
 import WorkoutFinishButton from '../components/WorkoutFinishButton';
 import ChooseExercise from '../screens/ChooseExercise';
 import NewWorkout from '../screens/Workout';
+import Profile from '../screens/Profile';
+import CreateTemplate from '../screens/CreateTemplate';
 
 export type WorkoutStackParamList = {
   'Home': undefined
   'New Workout': undefined
-  'Choose Exercise': { onSelectExercise: (exercise: string) => void };
+  'Choose Exercise': { onSelectExercise: (id: number, name: string) => void };
+  'Profile': undefined
+  "Create Template": undefined
 }
 
 export type WorkoutNavigationProp = NativeStackNavigationProp<
@@ -72,6 +76,16 @@ function HomeNavigation(){
             name="Choose Exercise" 
             component={ChooseExercise} 
             options={{headerShown: true,  animation:"slide_from_bottom"}}
+        />
+        <Stack.Screen 
+            name="Profile" 
+            component={Profile} 
+            options={{headerShown: true}}
+        />
+        <Stack.Screen 
+            name="Create Template" 
+            component={CreateTemplate} 
+            options={{headerShown: true}}
         />
       </Stack.Navigator>
     )
