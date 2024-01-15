@@ -93,13 +93,13 @@ async def get_all_user_plans(db: AsyncSession, user_id: int):
 
             training_data = {
                 "plan_id": training.id,
-                "plan_tile": training.title,
+                "plan_title": training.title,
                 "exercises": []
             }
 
             for exercise in exercises:
                 exercise_data = {
-                    "exercise_id": exercise.id,
+                    "exercise_id": exercise.exercise_id,
                     "num_series": exercise.num_series
                 }
 
