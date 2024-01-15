@@ -1,10 +1,11 @@
-import React from "react";
-import { Image, View, Text, StyleSheet} from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet} from "react-native";
+import { ExercisesSet1 } from "../assets/data";
 
 type DraftProps = {
     draft: {
-        id: number,
-        title: string,
+        plan_id: number,
+        plan_tile: string,
         exercises: {
             exercise_id: number,
             num_series: number
@@ -12,64 +13,57 @@ type DraftProps = {
     }
 }
 
-const SingleTraining: React.FC<DraftProps> = ({ draft }) => {
-    const { id, title, exercises } = draft;
+const SingleDraft: React.FC<DraftProps> = ({ draft }) => {
+    const { plan_tile, exercises } = draft;
+    const [exerciseNames, setExerciseNames] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (exercises.length > 0) {
+            const names = exercises.map((exercise) => {
+                const selectedExercise = ExercisesSet1.find(
+                (ex) => ex.id === exercise.exercise_id
+                );
+                return selectedExercise ? selectedExercise.title : "none";
+            });
+
+            setExerciseNames(names);
+        }
+  }, [exercises]);
 
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
-                <Text style={styles.title}>{title}</Text>
+                <Text style={styles.title}>{plan_tile}</Text>
                 <Text style={styles.exercise} numberOfLines={2} ellipsizeMode="tail">
-                    {exercises.join(", ")}
+                    {exerciseNames.join(", ")}
                 </Text>
             </View>
         </View>
       );
 }
-export default SingleTraining;
+export default SingleDraft;
 
 const styles = StyleSheet.create({
-  container: {
+    container: {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between', 
-      borderBottomWidth: 1,
+      borderBottomWidth: 0,
       borderBottomColor: '#ccc',
       paddingVertical: 5, 
-  },
-  image: {
-      width: 70,
-      height: 70,
-      borderRadius: 0,
-      marginRight: 10,
-  },
-  textContainer: {
+    },
+    textContainer: {
       flex: 1,
       justifyContent: 'space-between'
-  },
-  headerContainer: {
-      flexDirection: 'row',
-      justifyContent: 'space-between', 
-      marginTop: 0,
-  },
-  name: {
-      fontSize: 16,
-      fontWeight: 'bold',
-  },
-  date: {
-      fontSize: 14,
-      color: '#555',
-  },
-  exercisesContainer: {
-      flex: 1,
-  },
-  exercise: {
+    },
+    exercise: {
       fontSize: 12,
       marginBottom: 5,
-  },
-  title: {
+    },
+    title: {
       fontSize: 13,
       fontWeight: 'bold',
       marginBottom: 1,
-  },
-});
+    },
+  });
+  
