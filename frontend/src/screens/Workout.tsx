@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet } from "react-native";
+import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet, Alert } from "react-native";
 import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
 import SeriesBar from "../components/SeriesBar";
@@ -15,11 +15,45 @@ interface Exercise {
   }[];
 }
 
+interface Workout{
+  title: string,
+  start_training: string,
+  end_training: string,
+  exercises: Exercise [];
+}
+
 const NewWorkout = () => {
   const navigation = useNavigation<WorkoutNavigationProp>();
 
   const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [title, setTitle] = useState<String>("New Workout");
+  const [title, setTitle] = useState<string>("New Workout");
+
+  const handleFinishWorkout = () => {
+    Alert.alert(
+      'Confirmation',
+      'Are you sure you want to finish workout?',
+      [
+        { text: 'No', style: 'cancel' },
+        {
+          text: 'Yes',
+          onPress: () => {
+            // Tutaj dodaj logikę zakończenia treningu, na przykład utworzenie obiektu Workout
+            const workout: Workout = {
+              title: title,
+              start_training: new Date().toISOString(),
+              end_training: new Date().toISOString(),
+              exercises: exercises,
+            };
+            console.log(exercises);
+            navigation.goBack();
+            // Wyświetlenie informacji o zakończonym treningu
+            console.log("Workout Finished:", workout);
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -29,7 +63,12 @@ const NewWorkout = () => {
           value={title}
           onChangeText={handleChangeTitle}
         />
-      )
+      ),
+      headerLeft: () => (
+        <TouchableOpacity onPress={handleFinishWorkout} style={{ marginLeft: 15 }}>
+          <Text style={styles.headerButtonText}>Finish</Text>
+        </TouchableOpacity>
+      ),
     });
   }, [navigation, title]);
 
@@ -201,7 +240,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-
 });
 
 

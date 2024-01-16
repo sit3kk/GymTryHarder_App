@@ -70,7 +70,7 @@ function HomeNavigation(){
         <Stack.Screen 
             name="New Workout" 
             component={NewWorkout}
-            options={{ headerLeft: () => <WorkoutFinishButton />}} 
+            options={{headerShown: true}} 
         />
         <Stack.Screen 
             name="Choose Exercise" 
