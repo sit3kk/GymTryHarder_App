@@ -1,12 +1,14 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet, Alert } from "react-native";
 import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
 import { MaterialCommunityIcons } from '@expo/vector-icons'; 
+import * as SecureStore from 'expo-secure-store';
 import SeriesBar from "../components/SeriesBar";
+import axios from "axios";
 
 interface Exercise {
-  id: number,
+  exercise_id: number,
   name: string;
   series: {
     counter: number;
@@ -27,8 +29,40 @@ const NewWorkout = () => {
 
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [title, setTitle] = useState<string>("New Workout");
+  const [start_time] = useState<string>(new Date().toISOString())
 
-  const handleFinishWorkout = () => {
+  const handleChangeTitle = (newTitle: string) =>{
+    setTitle(newTitle);
+  }
+
+  const saveWorkout = async (workout: Workout) => {
+    try {
+      const queryString = `jsonPlan=${encodeURIComponent(JSON.stringify(workout))}`;
+      const token = await SecureStore.getItemAsync("my-jwt");
+  
+      const response = await axios.post(
+        `http://0.0.0.0:8000/save_workout/?${queryString}`,
+        null,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+        }
+      );
+  
+      if (response.status === 200) {
+        console.log("Workout saved successfully!");
+        navigation.goBack();
+      } else {
+        console.error("Error saving workout:", response.statusText, response.data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleFinishWorkout = React.useCallback(() => {
     Alert.alert(
       'Confirmation',
       'Are you sure you want to finish workout?',
@@ -36,24 +70,22 @@ const NewWorkout = () => {
         { text: 'No', style: 'cancel' },
         {
           text: 'Yes',
-          onPress: () => {
-            // Tutaj dodaj logikę zakończenia treningu, na przykład utworzenie obiektu Workout
+          onPress: async () => {
             const workout: Workout = {
               title: title,
               start_training: new Date().toISOString(),
-              end_training: new Date().toISOString(),
+              end_training: start_time,
               exercises: exercises,
             };
-            console.log(exercises);
-            navigation.goBack();
-            // Wyświetlenie informacji o zakończonym treningu
-            console.log("Workout Finished:", workout);
+            console.log(JSON.stringify(workout, null, 2));
+
+            await saveWorkout(workout);
           },
         },
       ],
       { cancelable: false }
     );
-  };
+  }, [navigation, exercises, title]);
 
   React.useEffect(() => {
     navigation.setOptions({
@@ -65,21 +97,20 @@ const NewWorkout = () => {
         />
       ),
       headerLeft: () => (
-        <TouchableOpacity onPress={handleFinishWorkout} style={{ marginLeft: 15 }}>
+        <TouchableOpacity 
+            onPress={handleFinishWorkout} 
+            style={{ marginLeft: 15 }}
+        >
           <Text style={styles.headerButtonText}>Finish</Text>
         </TouchableOpacity>
       ),
     });
-  }, [navigation, title]);
-
-  const handleChangeTitle = (newTitle: string) =>{
-      setTitle(newTitle);
-  }
+  }, [title, handleChangeTitle, handleFinishWorkout]);
 
   const handleAddExercisePress = () => {
     navigation.navigate("Choose Exercise", {
       onSelectExercise: (_id, _name) => {
-        setExercises([...exercises, { id: _id, name: _name, series:[{ counter: 1, weight: 0, reps: 0 }] }]);
+        setExercises([...exercises, { exercise_id: _id, name: _name, series:[{ counter: 1, weight: 0, reps: 0 }] }]);
       },
     });
   };

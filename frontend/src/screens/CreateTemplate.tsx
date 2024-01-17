@@ -34,7 +34,6 @@ const CreateTemplate = () => {
         exercises: exercises.map((exercise) => ({ exercise_id: exercise.exercise_id, num_series: exercise.num_series })),
       };
 
-      console.log(templateData)
       const queryString = `jsonPlan=${encodeURIComponent(JSON.stringify(templateData))}`;
 
   
