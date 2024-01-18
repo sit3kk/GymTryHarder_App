@@ -1,17 +1,105 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StyleSheet, Image } from "react-native";
-import { TrainingSet1, TrainingSet2 } from "../assets/data";
+import { ExercisesSet1, TrainingSet1, TrainingSet2 } from "../assets/data";
 import SingleTraining from "../components/SingleTraining";
+import * as SecureStore from 'expo-secure-store';
+
+
+interface WorkoutOwner {
+    owner_id: number,
+    full_name: string,
+    photo: string,
+    workouts: Workout []
+}
+
+interface Workout{
+   workout_id: number,
+   title: string,
+   date: string,
+   exercises: string []
+}
 
 const Home = () => {
   const [activeButton, setActiveButton] = useState("You");
+  const [workoutOwner, setWorkoutOwner] = useState<WorkoutOwner>();
+
+  const fetchMyInformations = async () => {
+    try {
+      const token = await SecureStore.getItemAsync("my-jwt");
+      const response = await axios.get('http://0.0.0.0:8000/users/me', {
+        headers: {
+          'Accept': 'application/json',
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      const { id: owner_id, full_name, photo } = response.data;
+      setWorkoutOwner({
+        owner_id,
+        full_name,
+        photo,
+        workouts: [], 
+      });
+
+    } catch (error) {
+      console.error('Error fetching workout owner informations:', error);
+    }
+  }
+
+  const findExerciseNameById = (exerciseId: number) => {
+    const exercise = ExercisesSet1.find((item) => item.id === exerciseId);
+    return exercise ? exercise.title : "Unknown Exercise";
+  };
+
+  const fetchMyTrainings = async () => {
+    try {
+      const token = await SecureStore.getItemAsync("my-jwt");
+      const response = await axios.get('http://0.0.0.0:8000/get_workouts/?user_id=2', {
+        headers: {
+          'Accept': 'application/json',
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      const workoutsData = response.data;
+
+      setWorkoutOwner((prevState: WorkoutOwner | undefined) => ({
+        ...prevState!,
+        workouts: workoutsData.map((workout: any) => ({
+        workout_id: workout.workout_id,
+        title: workout.workout_tile,
+        date: workout.start_training,
+        exercises: workout.exercises.map((exercise: any) => findExerciseNameById(exercise.exercise_id)),
+      })),
+    }));
+
+    } catch (error) {
+      console.error('Error fetching all owner trainigns:', error);
+    }
+  }
+
+  useEffect(() => {
+    fetchMyInformations();
+    fetchMyTrainings();
+  }, []);
 
   const handleButtonPress = (button: string) => {
     setActiveButton(button);
   };
 
   const renderTrainings = () => {
-    return activeButton === "You" ? TrainingSet1 : TrainingSet2;
+    const MySet = workoutOwner?.workouts?.map((workout:Workout) => ({
+      id: workout.workout_id,
+      full_name: workoutOwner.full_name,
+      // to jest do zmiany jak zrobie firebase !!!!!!!!!!
+      imageUri: require('../assets/zalno.jpeg'),
+      title: workout.title,
+      date: workout.date,
+      exercises: workout.exercises
+    })) || []
+
+    return activeButton === "You" ? MySet : TrainingSet2;
   };
 
   return (
