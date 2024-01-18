@@ -28,6 +28,8 @@ async def get_all_user_workouts(db: AsyncSession, user_id: int):
             workout_data = {
                 "workout_id": workout.id,
                 "workout_tile": workout.title,
+                "start_training": workout.start_training,
+                "end_training": workout.end_training,
                 "exercises": []
             }
 
@@ -36,7 +38,7 @@ async def get_all_user_workouts(db: AsyncSession, user_id: int):
                 series = result.scalars().all()
 
                 exercise_data = {
-                    "exercise_id": exercise.id,
+                    "exercise_id": exercise.exercise_id,
                     "exercise_name": exercise.name,
                     "series": [{
                         "series_id": serie.id,
