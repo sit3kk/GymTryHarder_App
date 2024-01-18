@@ -20,7 +20,7 @@ class UserCreate(BaseModel):
     weight: Optional[int] = None
 
 class User(BaseModel):
-   # id: Optional[int] = None
+    id: Optional[int] = None
     username: str
     email: Optional[str] = None
     full_name: Optional[str] = None
@@ -37,27 +37,3 @@ class UserInDb(User):
 class JsonData(BaseModel):
     jsonData: str
 
-''''
-class WorkoutExercise(BaseModel):
-    name: str
-    sets: int
-    reps: int
-    rest: int
-
-class ExerciseCreate(BaseModel):
-    name: str
-    body_part: BodyPart
-
-class TrainingCreate(BaseModel):
-    name: str
-
-class ExerciseSeriesAdd(BaseModel):
-    exercise_id: int
-    repetitions: int
-    weight: float
-    
-class TrainingExerciseAdd(BaseModel):
-    exercise_id: int
-    repetitions: int
-    weight: float
-'''
