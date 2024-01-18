@@ -94,7 +94,7 @@ Create objects without specifying the exact class of the object that will be cre
   Factory to create new sets of exercises.
 - **User Creation ('factories.py')**:  
   Factory to create new user in system.
-  - **Plan Creation ('factories.py')**:  
+- **Plan Creation ('factories.py')**:  
   Factory to create new plan in system.
 
 
