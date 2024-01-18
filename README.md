@@ -1,34 +1,54 @@
-# 📱 **GYMTRYHARDER APPLICATION**
+# 📱 GYMTRYHARDER APPLICATION
 
-A project created for the purpose of understanding and diving deeper into the benefits and practicality of using design patterns in the software development process.
+A comprehensive fitness application meticulously crafted to explore the practical implementation of design patterns in software development. GYMTRYHARDER leverages cutting-edge technologies to deliver a robust, scalable, and user-friendly experience, offering insightful ways to manage fitness routines.
 
-## 👥 **Members:**
-- Konrad Sitek
-- Adrian Cielniak
+## Project Overview
+
+This project is designed to delve into the benefits and practical applications of various software design patterns. By integrating these patterns into the development process, GYMTRYHARDER stands as a testament to efficient and effective software engineering practices.
+
+## 👥 Team Members
+
+- **Konrad Sitek** - Backend Developer
+- **Adrian Cielniak** - Frontend Developer
+
+## 🛠️ Used Technologies
+
+### Backend Technologies
+
+- **Python**: A versatile and powerful programming language. [Learn more](https://www.python.org/)
+- **FastAPI**: A modern, fast (high-performance) web framework for building APIs with Python based on standard Python type hints. [Learn more](https://fastapi.tiangolo.com/)
+- **SQLAlchemy**: The Python SQL toolkit and Object-Relational Mapping (ORM) library for Python. [Learn more](https://www.sqlalchemy.org/)
+- **PostgreSQL**: A powerful, open-source object-relational database system. [Learn more](https://www.postgresql.org/)
+- **Docker**: A set of platform-as-a-service products that use OS-level virtualization to deliver software in packages called containers. [Learn more](https://www.docker.com/)
+- **Amazon EC2**: A web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. [Learn more](https://aws.amazon.com/ec2/)
+
+### Frontend Technologies
+
+(TBD - Add similar descriptions for the frontend technologies used)
+
+
+Frontend
+
 
 ## 📝 **Description:**
-Fitness application designed to cater to individual fitness goals and community engagement. The application allows users to create personalized workout plans or opt for pre-designed plans curated by administrators. Progress tracking is a core feature, enabling users to monitor their achievements over time through intuitive graphs and statistics.
+Fitness application designed to cater to individual fitness goals. The application allows users to create personalized workout plans or follow plans your friends. Progress tracking is a core feature, enabling users to monitor their achievements over time.
 
 ## 📈 **Diagram:**
 
-![diagram](./image.png)
+![Diagram](https://github.com/sit3kk/GymTryHarder_App/assets/69002597/a819a998-661b-4363-a81e-6cb0db0800c5)
 
-## 🚀 **Development Phases:**
 
-### 🌟 **PHASE 1 (CORE FEATURES):**
-- User Authentication and Profile Management
-- Workout Plans (Personalized and Pre-designed)
-- Progress Tracking
 
-### 🌟 **PHASE 2 (ENHANCED FEATURES):**
-- Social Features
-- Achievements
 
-### 🌟 **PHASE 3 (COMMUNITY ENGAGEMENT):**
-- Community Forums
+### 🌟 **(CORE FEATURES):**
+- Registration and login using JWT Tokens
 
-### 🌟 **PHASE 4 (PERSONALIZATION):**
-- Personalized Recommendations
+- Saving workout plans
+
+- Saving current progress
+
+- Setting personal informations like photo, height, weight etc.
+
 
 ## 🧩 **Design Patterns used in the project:**
 
@@ -43,8 +63,7 @@ Enhance or modify the behavior of functions or methods without altering their co
 - **Logging Decorators**:  
   Applied to log activities like login attempts and user actions.  
   Example: Logging successful or failed login attempts, and user data access or updates.
-- **Error Handling Decorators**:  
-  Handle exceptions and errors in API routes, ensuring consistent error response formats and logging for debugging.
+
 
 ## 📐 Model-View-Controller (MVC)
 **Purpose:**  
@@ -75,6 +94,8 @@ Create objects without specifying the exact class of the object that will be cre
   Factory to create new sets of exercises.
 - **User Creation ('factories.py')**:  
   Factory to create new user in system.
+  - **Plan Creation ('factories.py')**:  
+  Factory to create new plan in system.
 
 
 
