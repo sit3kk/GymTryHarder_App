@@ -98,6 +98,11 @@ Create objects without specifying the exact class of the object that will be cre
   Factory to create new plan in system.
 
 
+  ## Backend endpoints:
+  ![image](https://github.com/sit3kk/GymTryHarder_App/assets/69002597/d05af8ed-fa3e-4c57-b2b3-7a68c5114eca)
+
+
+
 
 
 
