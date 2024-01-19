@@ -76,7 +76,7 @@ const StartWorkout = () => {
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
         style={styles.blankButton}
-        onPress={() => navigation.navigate('New Workout')}
+        onPress={() => navigation.navigate('New Workout', { initialExercises: [] })}
       >
         <Text style={{ color: 'white' }}>Blank Workout</Text>
       </TouchableOpacity>

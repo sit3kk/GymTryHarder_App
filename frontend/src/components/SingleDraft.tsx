@@ -1,6 +1,8 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import { ExercisesSet1 } from "../assets/data";
+import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
 
 type DraftProps = {
     draft: {
@@ -13,11 +15,39 @@ type DraftProps = {
     }
 }
 
+interface Exercise {
+  exercise_id: number;
+  name: string;
+  series: {
+    counter: number;
+    weight: number;
+    reps: number;
+  }[];
+}
+
+const convertToExercises = (
+  data: { exercise_id: number; num_series: number }[]
+): Exercise[] => {
+  return data.map((item) => {
+    const selectedExercise = ExercisesSet1.find(ex => ex.id === item.exercise_id);
+    return {
+      exercise_id: item.exercise_id,
+      name: selectedExercise ? selectedExercise.title : `Exercise ${item.exercise_id}`,
+      series: Array.from({ length: item.num_series }, (_, index) => ({
+        counter: index + 1,
+        weight: 0,
+        reps: 0,
+      })),
+    };
+  });
+};
+
+
+
 const SingleDraft: React.FC<DraftProps> = ({ draft }) => {
     const { plan_title, exercises } = draft;
     const [exerciseNames, setExerciseNames] = useState<string[]>([]);
-
-    console.log("Draft received:", draft);
+    const navigation = useNavigation<WorkoutNavigationProp>();
 
     useEffect(() => {
         if ( exercises.length > 0) {
@@ -32,7 +62,13 @@ const SingleDraft: React.FC<DraftProps> = ({ draft }) => {
         }
   }, [exercises]);
 
+  const handleStartWorkout = () => {
+    const convertedExercises: Exercise[] = convertToExercises(exercises);
+    navigation.navigate("New Workout", { initialExercises: convertedExercises });
+  };
+
     return (
+      <TouchableOpacity onPress={handleStartWorkout}>
         <View style={styles.container}>
             <View style={styles.textContainer}>
                 <Text style={styles.title}>{plan_title}</Text>
@@ -41,6 +77,7 @@ const SingleDraft: React.FC<DraftProps> = ({ draft }) => {
                 </Text>
             </View>
         </View>
+      </TouchableOpacity>
       );
 }
 export default SingleDraft;

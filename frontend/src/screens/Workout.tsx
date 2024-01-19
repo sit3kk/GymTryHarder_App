@@ -1,4 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View, StyleSheet, Alert } from "react-native";
 import { WorkoutNavigationProp } from "../navigation/HomeNavigation";
@@ -26,8 +26,9 @@ interface Workout{
 
 const NewWorkout = () => {
   const navigation = useNavigation<WorkoutNavigationProp>();
-
-  const [exercises, setExercises] = useState<Exercise[]>([]);
+  const route = useRoute();
+  const initialExercises: Exercise[] = route.params?.initialExercises || [];
+  const [exercises, setExercises] = useState<Exercise[]>(initialExercises);
   const [title, setTitle] = useState<string>("New Workout");
   const [start_time] = useState<string>(new Date().toISOString())
 

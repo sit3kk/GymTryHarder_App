@@ -12,9 +12,19 @@ import NewWorkout from '../screens/Workout';
 import Profile from '../screens/Profile';
 import CreateTemplate from '../screens/CreateTemplate';
 
+interface Exercise {
+  exercise_id: number,
+  name: string;
+  series: {
+    counter: number;
+    weight: number;
+    reps: number;
+  }[];
+}
+
 export type WorkoutStackParamList = {
   'Home': undefined
-  'New Workout': undefined
+  'New Workout': { initialExercises?: Exercise[] };
   'Choose Exercise': { onSelectExercise: (id: number, name: string) => void };
   'Profile': undefined
   "Create Template": undefined
