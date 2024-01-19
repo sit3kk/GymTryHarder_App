@@ -17,8 +17,10 @@ const SingleDraft: React.FC<DraftProps> = ({ draft }) => {
     const { plan_title, exercises } = draft;
     const [exerciseNames, setExerciseNames] = useState<string[]>([]);
 
+    console.log("Draft received:", draft);
+
     useEffect(() => {
-        if (exercises.length > 0) {
+        if ( exercises.length > 0) {
             const names = exercises.map((exercise) => {
                 const selectedExercise = ExercisesSet1.find(
                 (ex) => ex.id === exercise.exercise_id

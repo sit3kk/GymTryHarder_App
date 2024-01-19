@@ -9,6 +9,7 @@ import SingleDraft from "../components/SingleDraft";
 const StartWorkout = () => {
   const navigation = useNavigation<WorkoutNavigationProp>();
   const [drafts, setDrafts] = useState([]);
+  const [workouts, setWorkouts] = useState([]);
 
   const fetchDrafts = async () => {
     try {
@@ -26,9 +27,48 @@ const StartWorkout = () => {
     }
   };
 
+  const fetchWorkoutHistory = async () => {
+    try {
+      const token = await SecureStore.getItemAsync("my-jwt");
+      const response = await axios.get('http://0.0.0.0:8000/get_workouts/?user_id=2', {
+        headers: {
+          'Accept': 'application/json',
+          "Authorization": `Bearer ${token}`,
+        },
+      });
+
+      const mappedWorkouts = response.data.map((workout: any) => {
+        const { workout_id, workout_tile, exercises } = workout;
+  
+        const mappedExercises = exercises.map((exercise: any) => {
+          const { exercise_id, series } = exercise;
+          const num_series = series.length;
+  
+          return {
+            exercise_id,
+            num_series,
+          };
+        });
+  
+        return {
+          plan_id: workout_id,
+          plan_title: workout_tile,
+          exercises: mappedExercises,
+        };
+      });
+  
+      setWorkouts(mappedWorkouts);
+    
+      
+    } catch (error) {
+      console.error('Error fetching drafts:', error);
+    }
+  }
+
   useFocusEffect(
     React.useCallback(() => {
       fetchDrafts();
+      fetchWorkoutHistory();
     }, [])
   );
 
@@ -53,6 +93,9 @@ const StartWorkout = () => {
             <Text style={styles.barText}>Recent Workouts</Text>
             <View style={styles.barView}/>
           </View>
+          {workouts.map((workout, index) => (
+            <SingleDraft key={index} draft={workout} />
+          ))}
       </ScrollView> 
 
     </SafeAreaView>
