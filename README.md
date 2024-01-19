@@ -24,10 +24,8 @@ This project is designed to delve into the benefits and practical applications o
 
 ### Frontend Technologies
 
-(TBD - Add similar descriptions for the frontend technologies used)
+- **React Native**
 
-
-Frontend
 
 
 ## 📝 **Description:**
@@ -39,15 +37,46 @@ Fitness application designed to cater to individual fitness goals. The applicati
 
 
 
-
 ### 🌟 **(CORE FEATURES):**
 - Registration and login using JWT Tokens
+<table style="border-collapse: collapse; border: none;">
+  <tr>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/633570c8-3ed7-40e1-b83b-34d2fb6acaa8" width="50%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/6236c0f5-6926-439f-9d0e-db6ef379720d" width="50%"></td>
+  </tr>
+</table>
 
 - Saving workout plans
+<table style="border-collapse: collapse; border: none;">
+  <tr>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/6059aedf-14d2-4407-9ff9-937b2bed9aca" width="50%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/50a3751b-9e31-47bc-a7e2-e4ee833805ac" width="50%"></td>
+  </tr>
+</table>
 
 - Saving current progress
+<table style="border-collapse: collapse; border: none;">
+  <tr>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/52482f0f-fb29-455d-bf18-7d0b3a467066" width="50%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/696706bd-e9be-4702-9dd2-4e73ad556719" width="50%"></td>
+  </tr>
+</table>
 
-- Setting personal informations like photo, height, weight etc.
+- Follow other users
+<table style="border-collapse: collapse; border: none;">
+  <tr>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/1d2d3249-09a9-4cc0-8c34-1c7c84d98aea" width="50%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/fcc438cf-1192-4707-afc5-34616e74d62c" width="50%"></td>
+
+  
+
+
+
+  </tr>
+</table>
+
+
+
 
 
 ## 🧩 **Design Patterns used in the project:**
@@ -97,9 +126,8 @@ Create objects without specifying the exact class of the object that will be cre
 - **Plan Creation ('factories.py')**:  
   Factory to create new plan in system.
 
-
-  ## Backend endpoints:
-  ![image](https://github.com/sit3kk/GymTryHarder_App/assets/69002597/d05af8ed-fa3e-4c57-b2b3-7a68c5114eca)
+## ➡️ Backend endpoints:
+![image](https://github.com/sit3kk/GymTryHarder_App/assets/69002597/d05af8ed-fa3e-4c57-b2b3-7a68c5114eca)
 
 
 
