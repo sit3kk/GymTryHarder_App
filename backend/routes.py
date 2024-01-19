@@ -7,7 +7,7 @@ from factories import PlanFactory, UserFactory
 from security import authenticate_user, create_access_token
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
-from typing import Optional, Annotated, Any
+from typing import Optional, Annotated, Any, List
 from schemas import Token
 from fastapi import Security
 from database import engine, test_connection
@@ -153,7 +153,8 @@ async def set_height(height: int, db: AsyncSession = Depends(get_db), current_us
 
 
 @router.get("/users/me")
-async def get_current_user_information(current_user: UserModel = Depends(get_current_active_user)):
+async def get_current_user_information(
+    current_user: UserModel = Depends(get_current_active_user)):
     # Assuming you want to return most of the fields in UserModel, except sensitive ones like password
     user_data = {
         "id": current_user.id,
@@ -172,6 +173,28 @@ async def get_current_user_information(current_user: UserModel = Depends(get_cur
     return user_data
 
 
+@router.get("/users/{username}")
+async def get_user_information(username: str, db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(UserModel).where(UserModel.username == username))
+    user = result.scalars().first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user_data = {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "full_name": user.full_name,
+        "photo": user.photo,
+        "height": user.height,
+        "weight": user.weight,
+        "following_count": user.following_count,
+        "followers_count": user.followers_count,
+        "is_superuser": user.is_superuser,
+    }
+
+    return user_data
 
 from factories import WorkoutFactory
 
@@ -279,102 +302,78 @@ async def get_users(
     return {"users": users}
 
 
-"""
 
-@router.delete("/delete_plan/{plan_id}")
-async def delete_plan(plan_id: int, db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
-    # Fetch the workout plan by ID and check if it belongs to the current user
-    result = await db.execute(select(WorkoutModel).filter(WorkoutModel.id == plan_id, WorkoutModel.creatorid == current_user.id))
-    workout_plan = result.scalar()
+@router.get("/get_list_of_following")
+async def get_list_of_following(
+    db: AsyncSession = Depends(get_db),
+    current_user: UserModel = Depends(get_current_active_user),
+    user_id: int = Query(None)
+):
+    # Determine the target user's ID
+    target_user_id = user_id if user_id is not None else current_user.id
 
-    if not workout_plan:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Workout plan not found or not owned by the current user.")
+    # Asynchronously fetch the user from the database
+    user = await db.get(UserModel, target_user_id)
 
-    # Delete the workout plan
-    await db.delete(workout_plan)
-    await db.commit()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
 
-    return {"detail": "Workout plan deleted successfully."}
+    # Asynchronously fetch the list of users that the target user is following
+    following_list = await db.execute(
+        select(UserModel).where(UserModel.followers.any(id=target_user_id))
+    )
+    following_list = following_list.scalars().all()
 
+    return following_list
 
+@router.get("/get_list_of_followers")
+async def get_list_of_followers(
+    db: AsyncSession = Depends(get_db),
+    current_user: UserModel = Depends(get_current_active_user),
+    user_id: int = Query(None)
+):
+    # Determine the target user's ID
+    target_user_id = user_id if user_id is not None else current_user.id
 
+    # Asynchronously fetch the user from the database
+    user = await db.get(UserModel, target_user_id)
 
-@router.get("/get_exercises/")
-async def get_exercises(db: AsyncSession = Depends(get_db)):
-    exercises = await db.execute(select(ExerciseModel))
-    exercises = exercises.scalars().all()
-    return {"exercises": exercises}
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
 
+    # Asynchronously fetch the list of users that the target user is following
+    followers_list = await db.execute(
+        select(UserModel).where(UserModel.following.any(id=target_user_id))
+    )
+    followers_list = followers_list.scalars().all()
 
-
-@router.post("/add_exercise/")
-async def add_exercise(exercise: ExerciseCreate, db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
-    
-    if current_user.is_superuser == False:
-        raise HTTPException(status_code=400, detail="Only superusers can add exercises")
-
-
-    new_exercise = ExerciseModel(name=exercise.name, body_part=exercise.body_part)
-    
-    # Add the new exercise to the database
-    db.add(new_exercise)
-    await db.commit()
-    
-    return {"message": "Exercise added successfully"}
-
-@router.get("/my_trainings/")
-async def list_my_trainings(db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
-    trainings = await db.execute(select(Training).where(Training.user_id == current_user.id))
-    trainings = trainings.scalars().all()
-    return {"trainings": trainings}
+    return followers_list
 
 
-@router.post("/trainings/")
-async def create_training(training_data: TrainingCreate, db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
-    new_training = Training(name=training_data.name, user_id=current_user.id)
-    db.add(new_training)
-    await db.commit()
-    await db.refresh(new_training)
-    return new_training
 
 
-@router.post("/trainings/{training_name}/add_exercise/")
-async def add_exercise_to_training(training_name: str, exercise_data: TrainingExerciseAdd, db: AsyncSession = Depends(get_db)):
-    training = await db.get(Training, training_name)
-    if not training:
-        raise HTTPException(status_code=404, detail="Training not found")
 
-    # Assuming exercise_data contains exercise IDs to be added
-    for exercise_id in exercise_data.exercise_ids:
-        # Retrieve and add each exercise to the training
-        # Implement logic to fetch and associate exercises with the training
-        pass
+@router.get("/get_followers_ids")
+async def get_list_of_ids(
+    db: AsyncSession = Depends(get_db),
+    current_user: UserModel = Depends(get_current_active_user),
+    user_id: int = Query(None)
+):
+    # Determine the target user's ID
+    target_user_id = user_id if user_id is not None else current_user.id
 
-    await db.commit()
-    return {"message": "Exercises added to training"}
+    # Asynchronously fetch the user from the database
+    user = await db.get(UserModel, target_user_id)
 
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
 
-@router.post("/exercises/{exercise_id}/add_series/")
-async def add_series_to_exercise(exercise_id: int, series_data: ExerciseSeriesAdd, db: AsyncSession = Depends(get_db)):
-    exercise = await db.get(ExerciseModel, exercise_id)
-    if not exercise:
-        raise HTTPException(status_code=404, detail="Exercise not found")
+    # Asynchronously fetch the list of users that the target user is following
+    following_list = await db.execute(
+        select(UserModel).where(UserModel.followers.any(id=target_user_id))
+    )
+    following_list = following_list.scalars().all()
 
-    # Assuming series_data contains details for each series to be added
-    for series in series_data.series:
-        new_series = SeriesModel(repetitions=series.repetitions, weight=series.weight, exercise_id=exercise.id)
-        db.add(new_series)
+    following_list = [user.id for user in following_list]
 
-    await db.commit()
-    return {"message": "Series added to exercise"}
-
-from fastapi import UploadFile, File
-@router.patch("/users/me/photo")
-async def set_photo(photo: UploadFile = File(...), db: AsyncSession = Depends(get_db), current_user: UserModel = Depends(get_current_active_user)):
-    # Here, handle the file (e.g., save it to a server or cloud storage)
-    # For this example, let's assume you save the URL/path to the photo in the user's profile
-    current_user.photo = "/path/to/saved/photo.jpg"
-    db.add(current_user)
-    await db.commit()
-    return {"message": "Photo updated successfully"}
-"""
+    return following_list
