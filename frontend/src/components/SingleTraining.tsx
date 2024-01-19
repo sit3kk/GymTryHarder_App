@@ -4,10 +4,8 @@ import { Image, View, Text, StyleSheet} from "react-native";
 
 type TrainingProps = {
     training: {
-        id: number,
         title: string,
-        name: string,
-        surname: string,
+        full_name: string,
         date: string,
         imageUri: any
         exercises: string []
@@ -15,14 +13,14 @@ type TrainingProps = {
 }
 
 const SingleTraining: React.FC<TrainingProps> = ({ training }) => {
-    const { title, name, surname, date, imageUri, exercises } = training;
+    const { title, full_name, date, imageUri, exercises } = training;
 
     return (
         <View style={styles.container}>
             <Image source={imageUri} style={styles.image} />
             <View style={styles.textContainer}>
                 <View style={styles.headerContainer}>
-                    <Text style={styles.name}>{`${name} ${surname}`}</Text>
+                    <Text style={styles.name}>{full_name}</Text>
                     <Text style={styles.date}>{date}</Text>
                 </View>
                 <Text style={styles.title}>{title}</Text>
