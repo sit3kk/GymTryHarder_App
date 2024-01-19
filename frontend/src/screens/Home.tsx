@@ -95,11 +95,17 @@ const Home = () => {
       // to jest do zmiany jak zrobie firebase !!!!!!!!!!
       imageUri: require('../assets/zalno.jpeg'),
       title: workout.title,
-      date: workout.date,
+      date: workout.date.substring(0, 10),
       exercises: workout.exercises
     })) || []
 
-    return activeButton === "You" ? MySet : TrainingSet2;
+    const sortedTrainings = MySet.sort((a, b) => {
+      const dateA = new Date(a.date) as any;
+      const dateB = new Date(b.date) as any;
+      return dateB - dateA;
+    });
+  
+    return activeButton === "You" ? sortedTrainings : TrainingSet2;
   };
 
   return (
