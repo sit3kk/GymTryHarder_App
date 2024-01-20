@@ -23,8 +23,7 @@ This project is designed to delve into the benefits and practical applications o
 - **Amazon EC2**: A web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. [Learn more](https://aws.amazon.com/ec2/)
 
 ### Frontend Technologies
-
-- **React Native**
+- **React Native**: An open-source framework developed by Facebook, React Native enables developers to build mobile applications using JavaScript and React. It's designed to allow for the creation of natively rendered apps for both iOS and Android from a single codebase.
 
 
 
@@ -37,36 +36,36 @@ Fitness application designed to cater to individual fitness goals. The applicati
 
 
 
-### 🌟 **(CORE FEATURES):**
+### 🌟 **CORE FEATURES:**
 - Registration and login using JWT Tokens
 <table style="border-collapse: collapse; border: none;">
   <tr>
-    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/633570c8-3ed7-40e1-b83b-34d2fb6acaa8" width="50%"></td>
-    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/6236c0f5-6926-439f-9d0e-db6ef379720d" width="50%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/633570c8-3ed7-40e1-b83b-34d2fb6acaa8" width="100%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/6236c0f5-6926-439f-9d0e-db6ef379720d" width="100%"></td>
   </tr>
 </table>
 
 - Saving workout plans
 <table style="border-collapse: collapse; border: none;">
   <tr>
-    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/6059aedf-14d2-4407-9ff9-937b2bed9aca" width="50%"></td>
-    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/50a3751b-9e31-47bc-a7e2-e4ee833805ac" width="50%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/6059aedf-14d2-4407-9ff9-937b2bed9aca" width="100%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/50a3751b-9e31-47bc-a7e2-e4ee833805ac" width="100%"></td>
   </tr>
 </table>
 
 - Saving current progress
 <table style="border-collapse: collapse; border: none;">
   <tr>
-    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/52482f0f-fb29-455d-bf18-7d0b3a467066" width="50%"></td>
-    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/696706bd-e9be-4702-9dd2-4e73ad556719" width="50%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/52482f0f-fb29-455d-bf18-7d0b3a467066" width="100%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/696706bd-e9be-4702-9dd2-4e73ad556719" width="100%"></td>
   </tr>
 </table>
 
 - Follow other users
 <table style="border-collapse: collapse; border: none;">
   <tr>
-    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/1d2d3249-09a9-4cc0-8c34-1c7c84d98aea" width="50%"></td>
-    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/fcc438cf-1192-4707-afc5-34616e74d62c" width="50%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/1d2d3249-09a9-4cc0-8c34-1c7c84d98aea" width="100%"></td>
+    <td style="border: none;"><img src="https://github.com/sit3kk/GymTryHarder_App/assets/69002597/fcc438cf-1192-4707-afc5-34616e74d62c" width="100%"></td>
 
   
 
