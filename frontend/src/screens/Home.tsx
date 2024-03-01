@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, ScrollView, SafeAreaView, StyleSheet, Ima
 import { ExercisesSet1, TrainingSet1, TrainingSet2 } from "../assets/data";
 import SingleTraining from "../components/SingleTraining";
 import * as SecureStore from 'expo-secure-store';
+import { useFocusEffect } from "@react-navigation/native";
 
 
 interface WorkoutOwner {
@@ -79,10 +80,12 @@ const Home = () => {
     }
   }
 
-  useEffect(() => {
-    fetchMyInformations();
-    fetchMyTrainings();
-  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchMyInformations();
+      fetchMyTrainings();
+    }, [])
+  );
 
   const handleButtonPress = (button: string) => {
     setActiveButton(button);

@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     barText:{
         fontWeight: 'bold',
         marginRight: 10,
-        fontSize: 12
+        fontSize: 16
     },
     barView:{
         flex: 1,
